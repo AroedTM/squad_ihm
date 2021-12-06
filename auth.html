@@ -1,33 +1,73 @@
 <!DOCTYPE html>
 <html>
-    <header>
+    <head>
+        <meta charset="utf-8">
         <link rel="stylesheet" href="auth.css">
-    </header>
+    </head>
     <body>
-        <div>
-            <form>
-                <p>S'identifier</p>
-                <input type="text" placeholder="Pseudo" required>
-                <input type="password" placeholder="Mot de passe" required>
-                <a href="forgot.html">Mot de passe oublié</a>
-                <button>Connexion</button>
-            </form>
-            <form>
-                <p>Créer un compte</p>
+        <div id="auth-container">
+            <h1 id="auth-title">Pong</h1>
+            <div class="auth-tabs">
+                <div id="sign-in-tab" class="focused-tab" onclick="switchTab('sign-in-tab')"><h3>S'identifier</h3></div>
+                <div id="sign-up-tab" onclick="switchTab('sign-up-tab')"><h3>Créer un compte</h3></div>
+            </div>
+            <div id="sign-in-tab-container" class="focused-tab-container">
+                <input id="sign-in-pseudo" type="text" placeholder="Pseudo" required>
+                <input id="sign-in-password" type="password" placeholder="Mot de passe" required>
+                <a href="">Mot de passe oublié</a>
+                <button onclick="checkCredential()">Connexion</button>
+                <p id="msg-error"></p>
+            </div>
+            <div id="sign-up-tab-container">
                 <input type="email" placeholder="Email" required>
                 <input type="text" placeholder="Pseudo" required>
                 <input type="password" placeholder="Mot de passe" required>
-                <p id="msg-error"></p>
-                <button onclick="checkCredential()">Valider</button>
-            </form>
+                <button>Valider</button>
+            </div>
         </div>
         <script>
-            function message() {
-                document.getElementById('msg-error').innerHTML('Login ou mot de passe incorrect');
+            var data;
+            var signInTab = document.getElementById('sign-in-tab');
+            var signUpTab = document.getElementById('sign-up-tab');
+            var signInTabContainer = document.getElementById('sign-in-tab-container');
+            var signUpTabContainer = document.getElementById('sign-up-tab-container');
+            var signInPseudo = document.getElementById('sign-in-pseudo');
+            var signInPassword = document.getElementById('sign-in-password');
+
+            function switchTab (tab) {
+                if (tab == 'sign-in-tab') {
+                    signUpTab.classList.remove('focused-tab');
+                    signInTab.classList.add('focused-tab');
+                    signUpTabContainer.classList.remove('focused-tab-container');
+                    signInTabContainer.classList.add('focused-tab-container');
+                } else if (tab == 'sign-up-tab') {
+                    signInTab.classList.remove('focused-tab');
+                    signUpTab.classList.add('focused-tab');
+                    signInTabContainer.classList.remove('focused-tab-container');
+                    signUpTabContainer.classList.add('focused-tab-container');
+                }
             }
 
-            function checkCredential() {
-                message();
+            function messageError () {
+                document.getElementById('msg-error').innerHTML = 'Login ou mot de passe incorrect';
+            }
+
+            // send credentials to the server & retrieve the token
+            async function checkCredential () {
+                var headers = new Headers({
+                    'Content-Type': 'application/json'
+                })
+
+                /*########## TODO: add the right endpoint ##########*/
+                const response = await fetch('/login', {
+                    method: 'POST',
+                    mode: 'cors',
+                    body: JSON.stringify({
+                        username: signInPseudo.value,
+                        password: signInPassword.value
+                    }),
+                    headers
+                });
             }
         </script>
     </body>
