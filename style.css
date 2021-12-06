@@ -1,0 +1,29 @@
+body {
+    background-color: red;
+    color: white;
+}
+
+.LeaderBoard {
+    background-color: green;
+    position: relative;
+    right: -69em;
+    top: 1.5em;
+    width: 20%;
+    height: auto;
+    text-align: center;
+}
+
+.Logo {
+    background-color: blue;
+    position: relative;
+    width: 20%;
+    height: 5%;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: nowrap;
+    right: -37em;
+    top: 7em;
+}
