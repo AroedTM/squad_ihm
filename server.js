@@ -2,13 +2,24 @@ var express = require('express');
 var serve_static = require('serve-static');
 var http = require('http');
 var fs = require('fs');
-
+var path = require('path');
 var app = express();
 app.use(serve_static(__dirname+"/public"));
 
 var serveur = http.Server(app);
 serveur.listen(8080, function(){});
-
+app.get('/game', function(req, res){
+    res.sendFile(path.join(__dirname, '/public/jeu.html'));
+});
+app.get('/', function(req, res){
+    res.sendFile(path.join(__dirname, '/public/auth.html'));
+});
+app.get('/auth', function(req, res){
+    res.sendFile(path.join(__dirname, '/public/auth.html'));
+});
+app.get('/accueil', function(req, res){
+    res.sendFile(path.join(__dirname, '/public/Accueil.html'));
+});
 app.get('/scoreboard', function (req, res) {
     let data = {parties: [], victoires: 0, defaites: 0};
     data.parties = [
