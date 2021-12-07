@@ -20,6 +20,9 @@ app.get('/auth', function(req, res){
 app.get('/accueil', function(req, res){
     res.sendFile(path.join(__dirname, '/public/Accueil.html'));
 });
+app.get('/leaderboard', function(req, res){
+    res.sendFile(path.join(__dirname, '/public/scoreboard.html'));
+});
 app.get('/scoreboard', function (req, res) {
     let data = {parties: [], victoires: 0, defaites: 0, ratioEvolution: []};
     data.parties = [
