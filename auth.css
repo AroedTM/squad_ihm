@@ -77,7 +77,8 @@ body {
     cursor: pointer;
 }
 
-#msg-error {
+#sign-in-msg, #sign-up-msg {
+    color: red;
     margin: 10px;
 }
 
