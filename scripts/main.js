@@ -12,28 +12,33 @@
 
 //getapi(url_api);
 
-console.log("script called");
+leaderboard();
+test();
 
 function leaderboard(){
 	console.log("function leaderboard start");
-	const mock_answer = {
-		"player":[
+
+	const mock_answer = [
 			{"username": "user1", "games_played": 6, "games_won": 2},
 			{"username": "user2", "games_played": 6, "games_won": 4},
-		]
-	};
-	let tab;
+		];
+	let tab = `<tr>`;
 	let count=0
 	for (let r of mock_answer){
-		 tab +=`<tr>
-			<td>${r.player.username}</td>
-			<td>${r.player.games_played}</td>
-			</tr>`; //ratio a calculer
-		}
+		 tab +=`
+			<td>${r.username}</td>
+			<td>${r.games_won}</td>`; //ratio a calculer
+		};
+		console.log("boucle for working");
+	tab += `</tr>`;
+	console.log(tab);
 	document.getElementById("top10").innerHTML = tab;
-}
+};
 
 function test(){
-	let test = `<p>test</p>`
-	document.getElementById("testp").innerHTML = test;
+	$(document).ready(function(){
+		$("#button2j").click(function(){
+			$("#myModal").modal();
+		});
+	});
 }

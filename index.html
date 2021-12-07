@@ -4,6 +4,9 @@
     <!-- <link rel="stylesheet" href="style.css"> -->
     <meta charset="utf-8" />
     <tittle>Accueil</tittle>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
     <div class="Logo">
@@ -13,11 +16,32 @@
         <button id="1Joueur" type="button">1 Joueur</button>
         <h1>Boutons</h1>
     </div>
-    <div class="LeaderBoard">
-        <h1><a href="#">LeaderBoard</a></h1>
-        <table id="top10" onload="leaderboard()"></table>
+    <!-- Trigger the modal with a button -->
+    <button type="button" class="btn btn-info btn-lg" id="button2j">Open Modal</button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="Modal2j" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div>
+                    <button type="button" class="btn btn-info btn-lg" id="create">Creer une partie</button>
+                </div>
+                <div>
+                    <h5>Rejoindre une partie</h5>
+                    <input type="text" id="token" name="token">
+                </div>
+
+        </div>
     </div>
     <script src="scripts/main.js"></script>
-    <script></script>
+    <script>
+        $(document).ready(function(){
+		$("#button2j").click(function(){
+			$("#Modal2j").modal();
+		});
+	});
+    </script>
 </body>
 </html>
