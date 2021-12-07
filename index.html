@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Ball three.js</title>
+		<style>
+			body { margin: 0; }
+		</style>
+	</head>
+	<body id = "bod" >
+		<script src="js/ball.js"></script>
+		<script src = "js/racket.js"></script>
+		<script src="node_modules/three/build/three.js"></script>
+		<script>
+			//game start : move the ball randomly at left or right
+			side = Math.floor(Math.random() * 2 );
+			
+			if(side == 0) //right
+				var ball = new Ball(0.02, 0xffffff, 0, 0, 0.015, 0.015);
+			else //left
+				var ball = new Ball(0.02, 0xffffff, 0, 0, -0.015, 0.015);
+
+			
+			var left_raq = new Racket(-1.5, 0, 0.05, 0.2);
+			var right_raq = new Racket(1.5, 0, 0.05, 0.2);
+			var vitesse = 0.02;
+
+
+			const scene = new THREE.Scene();
+			const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+			
+			const renderer = new THREE.WebGLRenderer();
+			renderer.setSize( window.innerWidth, window.innerHeight );
+			document.body.appendChild( renderer.domElement );
+
+			//ball
+			const geometry = new THREE.CircleGeometry( ball.radius, 60 );
+			const material = new THREE.MeshBasicMaterial( { color: ball.color } );
+			const circle = new THREE.Mesh( geometry, material );
+
+
+			//raquette
+			const geometry_raq = new THREE.BoxGeometry(left_raq.width,left_raq.height,0);
+			const material_raq = new THREE.MeshBasicMaterial( {color: 0xffffff, side: THREE.DoubleSide} );
+        	const palet_left = new THREE.Mesh( geometry_raq, material_raq );
+        	const palet_right = new THREE.Mesh( geometry_raq, material_raq );
+			palet_left.position.x = left_raq.posx;
+			palet_left.position.y = left_raq.posy;
+			palet_right.position.x = right_raq.posx;
+			palet_right.position.y = right_raq.posy;
+
+			var pos = ball.GetPos();
+			circle.position.x = pos[0];
+			circle.position.y = pos[1];
+		
+			scene.add(circle);
+			scene.add(palet_left);
+			scene.add(palet_right);
+			camera.position.z = 1;
+
+
+			let keyPressed = {};
+
+			bod.addEventListener('keydown', (event) => { // Z, S & arrow UP/DOWN
+				keyPressed[event.keyCode] = true;
+
+				if (keyPressed[83] && keyPressed[38]){
+						if (palet_left.position.y > -0.6){
+							palet_left.position.y -= vitesse;
+						} //down && (this.posy - 2) < limit_down
+						if (palet_right.position.y < 0.6){
+							palet_right.position.y += vitesse;
+						}
+						
+					}
+					else if (keyPressed[83] && keyPressed[40]){ //down && (this.posy - 2) < limit_down
+						if (palet_left.position.y > -0.6){
+							palet_left.position.y -= vitesse;
+						}
+						if (palet_right.position.y > -0.6){
+							palet_right.position.y -= vitesse;
+						}
+						
+					}
+					else if (keyPressed[90] && keyPressed[38]){ //down && (this.posy - 2) < limit_down
+						if (palet_left.position.y < 0.6){
+							palet_left.position.y += vitesse;
+						}
+						if (palet_right.position.y < 0.6){
+							palet_right.position.y += vitesse;
+						}
+					}
+					else if (keyPressed[90] && keyPressed[40]){ //down && (this.posy - 2) < limit_down
+						if (palet_left.position.y < 0.6){
+							palet_left.position.y += vitesse;
+						}
+						if (palet_right.position.y > -0.6){
+							palet_right.position.y -= vitesse;
+						}
+					}
+					else if (keyPressed[38] && palet_right.position.y < 0.6){ //up && (this.posy + 2) < limit_up)
+					
+					palet_right.position.y += vitesse;
+					
+					}
+					else if (keyPressed[40] && palet_right.position.y > -0.6){ //down && (this.posy - 2) < limit_down
+						palet_right.position.y -= vitesse;
+					}
+					else if (keyPressed[90] && palet_left.position.y < 0.6){ //up && (this.posy + 2) < limit_up)
+					
+					palet_left.position.y += vitesse;
+					
+					}
+					else if (keyPressed[83] && palet_left.position.y > -0.6){ //down && (this.posy - 2) < limit_down
+						palet_left.position.y -= vitesse;
+					}
+					renderer.render( scene, camera );
+			});
+
+			bod.addEventListener('keyup', (event) => {
+				keyPressed[event.keyCode] = false;
+			});
+
+
+
+			//ball movement
+			const animate = function () {
+				requestAnimationFrame( animate );
+
+				var init_speed = ball.GetSpeed();
+				
+				//vertical limit
+				if (circle.position.y > 0.6 || circle.position.y < -0.6) {
+					ball.SetSpeedy(init_speed[1] * -1);
+				}
+
+				//horizontal limit
+				if (circle.position.x > 1.6 || circle.position.x < -1.6) {
+					ball.SetSpeedx(init_speed[0] * -1);
+				}
+
+				if(circle.position.y > palet_right.position.y){
+					palet_right.position.y += vitesse/1.5;
+				}
+
+				if(circle.position.y < palet_right.position.y){
+					palet_right.position.y -= vitesse/1.5;
+				}
+				var update_speed = ball.GetSpeed();
+				circle.position.x += update_speed[0];
+				circle.position.y += update_speed[1];
+			
+				renderer.render( scene, camera );
+			};
+
+			animate();
+		</script>
+	</body>
+</html>
