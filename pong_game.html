@@ -8,13 +8,15 @@
     	body { margin: 0; }
     </style>
 </head>
-<body onkeydown="return press(event);">
-
+<body id = "bod" >
+    
     <script src="js/three.js"></script>
     <script src = "js/pong_game.js"></script>
     <script>
+        //onkeydown="return press(event);"
         var left = new raquette(-1.5, 0, 0.05, 0.2);
-        //var right = new raquette(1.5,0, 0.05, 0.2);
+        var right = new raquette(1.5,0, 0.05, 0.2);
+        var vitesse = 0.02;
 
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75  , window.innerWidth / window.innerHeight, 1, 1000 );
@@ -31,43 +33,80 @@
         const palet_right = new THREE.Mesh( geometry, material );
         palet_left.position.x = left.posx;
         palet_left.position.y = left.posy;
-        //palet_right.position.x = right.posx;
-        //palet_right.position.y = right.posy;
+        palet_right.position.x = right.posx;
+        palet_right.position.y = right.posy;
 
 
         scene.add( palet_left );
-        //scene.add( palet_right);
+        scene.add( palet_right);
 
 
         camera.position.z = 1;
 		renderer.render( scene, camera );
 
-        
+        let keyPressed = {};
 
-        function press(e)
-        {
-            
-           var touche = e.keyCode;
-            
-                /*if (touche == 38 && palet_right.position.y < 0.6){ //up && (this.posy + 2) < limit_up)
+        bod.addEventListener('keydown', (event) => {
+            keyPressed[event.keyCode] = true;
+
+            if (keyPressed[83] && keyPressed[38]){
+                    if (palet_left.position.y > -0.6){
+                        palet_left.position.y -= vitesse;
+                    } //down && (this.posy - 2) < limit_down
+                    if (palet_right.position.y < 0.6){
+                        palet_right.position.y += vitesse;
+                    }
+                    
+                }
+                else if (keyPressed[83] && keyPressed[40]){ //down && (this.posy - 2) < limit_down
+                    if (palet_left.position.y > -0.6){
+                        palet_left.position.y -= vitesse;
+                    }
+                    if (palet_right.position.y > -0.6){
+                        palet_right.position.y -= vitesse;
+                    }
+                    
+                }
+                else if (keyPressed[90] && keyPressed[38]){ //down && (this.posy - 2) < limit_down
+                    if (palet_left.position.y < 0.6){
+                         palet_left.position.y += vitesse;
+                    }
+                    if (palet_right.position.y < 0.6){
+                          palet_right.position.y += vitesse;
+                    }
+                }
+                else if (keyPressed[90] && keyPressed[40]){ //down && (this.posy - 2) < limit_down
+                    if (palet_left.position.y < 0.6){
+                         palet_left.position.y += vitesse;
+                    }
+                    if (palet_right.position.y > -0.6){
+                        palet_right.position.y -= vitesse;
+                    }
+                }
+                else if (keyPressed[38] && palet_right.position.y < 0.6){ //up && (this.posy + 2) < limit_up)
                    
-                   palet_right.position.y += 0.02;
+                   palet_right.position.y += vitesse;
                   
                 }
-                else if (touche == 40 && palet_right.position.y > -0.6){ //down && (this.posy - 2) < limit_down
-                    palet_right.position.y -= 0.02;
-                }*/
-                if (touche == 90 && palet_left.position.y < 0.6){ //up && (this.posy + 2) < limit_up)
+                else if (keyPressed[40] && palet_right.position.y > -0.6){ //down && (this.posy - 2) < limit_down
+                    palet_right.position.y -= vitesse;
+                }
+                else if (keyPressed[90] && palet_left.position.y < 0.6){ //up && (this.posy + 2) < limit_up)
                    
-                   palet_left.position.y += 0.02;
+                   palet_left.position.y += vitesse;
                   
                 }
-                else if (touche == 83 && palet_left.position.y > -0.6){ //down && (this.posy - 2) < limit_down
-                    palet_left.position.y -= 0.02;
+                else if (keyPressed[83] && palet_left.position.y > -0.6){ //down && (this.posy - 2) < limit_down
+                    palet_left.position.y -= vitesse;
                 }
                 renderer.render( scene, camera );
-            
-        }
+        });
+
+        bod.addEventListener('keyup', (event) => {
+            keyPressed[event.keyCode] = false;
+        });
+
+        
     </script>
    
        
