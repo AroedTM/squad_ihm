@@ -31,9 +31,9 @@
             <div style="color: white; position: absolute; left: 10em; z-index: 999; margin-top: 2em;">
                 <center>
                     <h2 style="font-size: 3em;">Ratio<h2>
-                    <p style="font-size: 2em;" v-if="ratio > 1"style="margin: auto auto; font-size: 1em;" class="Victoire--text">{{ ratio }}</p>
-                    <p style="font-size: 2em;" v-if="ratio == 1"style="margin: auto auto; font-size: 1em;" class="white--text">{{ ratio }}</p>
-                    <p style="font-size: 2em;" v-if="ratio < 1"style="margin: auto auto; font-size: 1em;" class="Defaite--text">{{ ratio }}</p>
+                    <p style="font-size: 2em;" v-if="ratio > 1"style="margin: auto auto; font-size: 1em;" class="Victoire--text" >{{ ratio }}</p>
+                    <p style="font-size: 2em;" v-if="ratio == 1"style="margin: auto auto; font-size: 1em;" class="white--text" >{{ ratio }}</p>
+                    <p style="font-size: 2em;" v-if="ratio < 1"style="margin: auto auto; font-size: 1em;" class="Defaite--text" >{{ ratio }}</p>
                     
                     <h2 style="margin-top: 2em; font-size: 3em;">Parties<h2>
                     <p style="margin: 0.8em auto; font-size: 2em;">{{ parties.length }} </p>
@@ -115,7 +115,7 @@
                     if(self.parties.defaites == 0)
                         self.ratio = self.victoires;
                     else
-                        self.ratio = self.victoires/self.defaites;
+                        self.ratio = (self.victoires/self.defaites).toFixed(2);
 
                     self.ratioEvolution = reponse.data.ratioEvolution;
 
