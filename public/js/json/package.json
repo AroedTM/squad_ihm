@@ -1,0 +1,23 @@
+{
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "name": "squad_ihm",
+  "description": "test d'intégration",
+  "version": "1.0.0",
+  "main": "server.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/theguyhimself/squad_ihm.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/theguyhimself/squad_ihm/issues"
+  },
+  "homepage": "https://github.com/theguyhimself/squad_ihm#readme"
+}
