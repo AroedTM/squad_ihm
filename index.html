@@ -7,7 +7,7 @@
 			body { margin: 0; }
 		</style>
 	</head>
-	<body onkeydown="return press(event);">
+	<body id = "bod" >
 		<script src="js/ball.js"></script>
 		<script src = "js/racket.js"></script>
 		<script src="node_modules/three/build/three.js"></script>
@@ -22,7 +22,8 @@
 
 			
 			var left_raq = new Racket(-1.5, 0, 0.05, 0.2);
-			
+			var right_raq = new Racket(1.5, 0, 0.05, 0.2);
+			var vitesse = 0.02;
 
 
 			const scene = new THREE.Scene();
@@ -42,7 +43,11 @@
 			const geometry_raq = new THREE.BoxGeometry(left_raq.width,left_raq.height,0);
 			const material_raq = new THREE.MeshBasicMaterial( {color: 0xffffff, side: THREE.DoubleSide} );
         	const palet_left = new THREE.Mesh( geometry_raq, material_raq );
-        	palet_left.position.x = left_raq.posx;
+        	const palet_right = new THREE.Mesh( geometry_raq, material_raq );
+			palet_left.position.x = left_raq.posx;
+			palet_left.position.y = left_raq.posy;
+			palet_right.position.x = right_raq.posx;
+			palet_right.position.y = right_raq.posy;
 
 			var pos = ball.GetPos();
 			circle.position.x = pos[0];
@@ -50,20 +55,72 @@
 		
 			scene.add(circle);
 			scene.add(palet_left);
+			scene.add(palet_right);
 			camera.position.z = 1;
 
 
-			function press(e) // Z & S
-			{
-				var touche = e.keyCode;
-				if (touche == 90 && palet_left.position.y < 0.6) {
-					palet_left.position.y += 0.02;
-				}
-				else if (touche == 83 && palet_left.position.y > -0.6) {
-					palet_left.position.y -= 0.02;
-				}
-				renderer.render( scene, camera );
-			}
+			let keyPressed = {};
+
+			bod.addEventListener('keydown', (event) => { // Z, S & arrow UP/DOWN
+				keyPressed[event.keyCode] = true;
+
+				if (keyPressed[83] && keyPressed[38]){
+						if (palet_left.position.y > -0.6){
+							palet_left.position.y -= vitesse;
+						} //down && (this.posy - 2) < limit_down
+						if (palet_right.position.y < 0.6){
+							palet_right.position.y += vitesse;
+						}
+						
+					}
+					else if (keyPressed[83] && keyPressed[40]){ //down && (this.posy - 2) < limit_down
+						if (palet_left.position.y > -0.6){
+							palet_left.position.y -= vitesse;
+						}
+						if (palet_right.position.y > -0.6){
+							palet_right.position.y -= vitesse;
+						}
+						
+					}
+					else if (keyPressed[90] && keyPressed[38]){ //down && (this.posy - 2) < limit_down
+						if (palet_left.position.y < 0.6){
+							palet_left.position.y += vitesse;
+						}
+						if (palet_right.position.y < 0.6){
+							palet_right.position.y += vitesse;
+						}
+					}
+					else if (keyPressed[90] && keyPressed[40]){ //down && (this.posy - 2) < limit_down
+						if (palet_left.position.y < 0.6){
+							palet_left.position.y += vitesse;
+						}
+						if (palet_right.position.y > -0.6){
+							palet_right.position.y -= vitesse;
+						}
+					}
+					else if (keyPressed[38] && palet_right.position.y < 0.6){ //up && (this.posy + 2) < limit_up)
+					
+					palet_right.position.y += vitesse;
+					
+					}
+					else if (keyPressed[40] && palet_right.position.y > -0.6){ //down && (this.posy - 2) < limit_down
+						palet_right.position.y -= vitesse;
+					}
+					else if (keyPressed[90] && palet_left.position.y < 0.6){ //up && (this.posy + 2) < limit_up)
+					
+					palet_left.position.y += vitesse;
+					
+					}
+					else if (keyPressed[83] && palet_left.position.y > -0.6){ //down && (this.posy - 2) < limit_down
+						palet_left.position.y -= vitesse;
+					}
+					renderer.render( scene, camera );
+			});
+
+			bod.addEventListener('keyup', (event) => {
+				keyPressed[event.keyCode] = false;
+			});
+
 
 
 			//ball movement
