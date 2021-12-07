@@ -1,0 +1,33 @@
+.MaDivModal {
+    display: flex;
+    justify-content: space-around;
+    color: white;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#submitBtn {
+    background-color: #140602;
+    margin-left: 35%;
+}
+
+#create {
+    background-color: #140602;
+}
+
+#join {
+    background-color: #140602;
+}
+
+.modal-dialog {
+    height: 60%;
+    position: relative;
+    top: 25%;
+    transform: translateY(-50%);
+}
+
+.modal-content {
+    height: 40%;
+    background-color: #524F4E;
+}
