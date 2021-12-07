@@ -1,0 +1,76 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Raquette three.js</title>
+    <style>
+    	body { margin: 0; }
+    </style>
+</head>
+<body onkeydown="return press(event);">
+
+    <script src="js/three.js"></script>
+    <script src = "js/pong_game.js"></script>
+    <script>
+        var left = new raquette(-1.5, 0, 0.05, 0.2);
+        //var right = new raquette(1.5,0, 0.05, 0.2);
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75  , window.innerWidth / window.innerHeight, 1, 1000 );
+        
+        const renderer = new THREE.WebGLRenderer();
+		renderer.setSize( window.innerWidth, window.innerHeight );
+		document.body.appendChild( renderer.domElement );
+
+        
+        const geometry = new THREE.BoxGeometry(left.width,left.height,0);
+
+        const material = new THREE.MeshBasicMaterial( {color: 0xffffff, side: THREE.DoubleSide} );
+        const palet_left = new THREE.Mesh( geometry, material );
+        const palet_right = new THREE.Mesh( geometry, material );
+        palet_left.position.x = left.posx;
+        palet_left.position.y = left.posy;
+        //palet_right.position.x = right.posx;
+        //palet_right.position.y = right.posy;
+
+
+        scene.add( palet_left );
+        //scene.add( palet_right);
+
+
+        camera.position.z = 1;
+		renderer.render( scene, camera );
+
+        
+
+        function press(e)
+        {
+            
+           var touche = e.keyCode;
+            
+                /*if (touche == 38 && palet_right.position.y < 0.6){ //up && (this.posy + 2) < limit_up)
+                   
+                   palet_right.position.y += 0.02;
+                  
+                }
+                else if (touche == 40 && palet_right.position.y > -0.6){ //down && (this.posy - 2) < limit_down
+                    palet_right.position.y -= 0.02;
+                }*/
+                if (touche == 90 && palet_left.position.y < 0.6){ //up && (this.posy + 2) < limit_up)
+                   
+                   palet_left.position.y += 0.02;
+                  
+                }
+                else if (touche == 83 && palet_left.position.y > -0.6){ //down && (this.posy - 2) < limit_down
+                    palet_left.position.y -= 0.02;
+                }
+                renderer.render( scene, camera );
+            
+        }
+    </script>
+   
+       
+
+</body>
+</html>
