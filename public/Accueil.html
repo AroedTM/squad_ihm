@@ -1,34 +1,97 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="./css/style.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <meta charset="utf-8" />
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
 </head>
-    <body style="background-color:#121212;color:white;">
-        <div class="container">
+<body style="background-color:#121212;color:white;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col_2" id="logo">
+                <h1 style="font-family: Retron2000;">Pong</h1>
+            </div>
+        </div>
+        <div id="Boutons" class="container  ">
             <div class="row justify-content-center">
-                <div class="col_2" id="logo">
-                    <h1 style="font-family: Retron2000;">Pong</h1>
+                <div class="col" style="flex-grow:0;">
+                    <button id="1j" type="button" class="btn btn-light" style="font-family:Retron2000;">1 Joueur</button>
+                </div>
+                <div class="col" style="flex-grow:0;">
+                    <button id="Button2j" type="button" class="btn btn-info btn-light" style="font-family:Retron2000;">2 Joueurs</button>
                 </div>
             </div>
-            <div id="Boutons" class="container  ">
-                <div class="row justify-content-center">
-                    <div class="col" style="flex-grow:0;">
-                        <button id="1j" type="button" class="btn btn-light" style="font-family:Retron2000;">1 Joueur</button>
+            <div class="row justify-content-center">
+                <a href="/leaderboard" class="btn btn-light " role="button" aria-pressed="true" style="font-family:Retron2000;">ScoreBoard</a>
+                <!--<button id="LB" type="button" class="btn btn-light" style="font-family:Retron2000;">LeaderBoard</button>-->
+            </div>
+            <div class="row justify-content-center">
+                <a href="/auth" class="btn btn-light" role="button" aria-pressed="true" style="font-family:Retron2000;">Se Déconnecter</a>
+                <!--<button id="logout" type="button" class="btn btn-light" style="font-family:Retron2000;">Se Déconnecter</button>-->
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="Modal2j" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="MaDivModal">
+                    <div>
+                        <button type="button" class="btn btn-info btn-lg" id="create">Creer une partie</button>
                     </div>
-                    <div class="col" style="flex-grow:0;">
-                        <button id="2j" type="button" class="btn btn-light" style="font-family:Retron2000;">2 Joueurs</button>
+                    <div>
+                        <form id="myForm">
+                            <label for="token">Rejoindre une partie</label>
+                            <input type="text" id="token" placeholder="code de la room a rejoindre"><br>
+                            <input type="submit" value="envoyer" id="submitBtn">
+                        </form>
+                        <br>
+                        <div>
+                            <button type="button" class="btn btn-info btn-lg" id="join">Rejoindre une partie aleatoire</button>
+                        </div>
                     </div>
-                </div>
-                <div class="row justify-content-center">                    
-                    <button id="LB" type="button" class="btn btn-light" style="font-family:Retron2000;">LeaderBoard</button>
-                </div>
-                <div class="row justify-content-center">
-                    <button id="logout" type="button" class="btn btn-light" style="font-family:Retron2000;">Se Déconnecter</button>
                 </div>
             </div>
         </div>
-    
-    </body>
+    </div>
+    <button type="button" class="btn btn-info btn-lg" id="button2j">2 joueurs</button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="Modal2j" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="MaDivModal">
+                    <div>
+                        <button type="button" class="btn btn-info btn-lg" id="create">Creer une partie</button>
+                    </div>
+                    <div>
+                        <form id="myForm">
+                            <label for="token">Rejoindre une partie</label>
+                            <input type="text" id="token" placeholder="code de la room a rejoindre"><br>
+                            <input type="submit" value="envoyer" id="submitBtn">
+                        </form>
+                        <br>
+                        <div>
+                            <button type="button" class="btn btn-info btn-lg" id="join">Rejoindre une partie aleatoire</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $("#Button2j").click(function () {
+                $("#Modal2j").modal();
+            });
+        });
+    </script>
+</body>
 </html>

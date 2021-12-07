@@ -1,7 +1,8 @@
 {
   "dependencies": {
-    "three": "^0.135.0",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "nodemon": "^2.0.15",
+    "three": "^0.135.0"
   },
   "scripts": {
     "start": "node server.js",
@@ -11,7 +12,6 @@
   "description": "test d'intégration",
   "version": "1.0.0",
   "main": "server.js",
-  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/theguyhimself/squad_ihm.git"
