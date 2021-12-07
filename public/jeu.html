@@ -61,7 +61,7 @@
 
 			let keyPressed = {};
 
-			bod.addEventListener('keydown', (event) => { // Z, S & arrow UP/DOWN
+			bod.addEventListener('keydown', (event) => { // Z, S
 				keyPressed[event.keyCode] = true;
 
 				if (keyPressed[83] && keyPressed[38]){
@@ -136,9 +136,26 @@
 
 				//horizontal limit
 				if (circle.position.x > 1.6 || circle.position.x < -1.6) {
-					ball.SetSpeedx(init_speed[0] * -1);
+					side = Math.floor(Math.random() * 2 );
+					
+					//center
+					circle.position.x = 0;
+					circle.position.y = 0;
+
+					if(side == 0) //right
+						ball.SetSpeedx(0.015, 0.015);
+					else //left
+						ball.SetSpeedx(-0.015, 0.015);
 				}
 
+				if(circle.position.y > palet_right.position.y){
+					palet_right.position.y += vitesse/1.5;
+				}
+
+				if(circle.position.y < palet_right.position.y){
+					palet_right.position.y -= vitesse/1.5;
+				}
+				
 				var update_speed = ball.GetSpeed();
 				circle.position.x += update_speed[0];
 				circle.position.y += update_speed[1];
