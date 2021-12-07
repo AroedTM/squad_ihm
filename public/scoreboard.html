@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>        
-    <title>Pong</title>
+    <title>Pong - Scoreboard</title>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
 	<link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
     <link href="http://fonts.cdnfonts.com/css/retron2000" rel="stylesheet">
-    <style>*{font-family: Retron2000;}</style>
+    <style>
+        *{font-family: Retron2000; padding: 0; margin: 0;}
+        .v-progress-circular__underlay{stroke: red;}
+    </style>
 </head>
 <body>
     <div id="app" >
@@ -25,7 +28,13 @@
                     <p v-if="ratio < 1"style="margin: auto auto; font-size: 1em;" class="Defaite--text">{{ ratio }}</p>
                     
                     <h2 style="margin-top: 1em;">Parties<h2>
-                    <p>{{ parties.length }}</p>
+                    <div style="display: flex;">
+                        <p style="margin: auto auto;">{{ parties.length }} </p>
+                        <v-progress-circular style="margin: auto auto; stroke: red;" :size="20"
+                        :value="(victoires/parties.length)*100" color="Victoire"></v-progress-circular>
+                    </div>
+                        
+                    
                 </center>
             </div>
             <h1 style="color: white; margin: 0 auto; font-size: 3rem; top: 0;">SCOREBOARD</h1>
@@ -34,7 +43,7 @@
                 <v-container class="justify-center d-flex elevation-0">
                     <v-expansion-panels class="rounded-xl col-6 d-flex justify-center elevation-0">
                         <v-expansion-panel class="mb-5 rounded-xl" v-for="(partie,index) in parties" v-bind:key="partie.id">
-                                <v-expansion-panel-header outlined style="border: 4px solid white; background: #121212;" class="rounded-xl">
+                            <v-expansion-panel-header outlined style="border: 4px solid white; background: #121212;" class="rounded-xl">
                                     <v-card-title>
                                         <v-chip class="col-0 ml-5 white black--text">{{index+1}}</v-chip>
                                         <v-container class="col-10 ma-0" :class="(partie.result)+'--text'">{{ partie.result }}</v-container>
@@ -86,6 +95,7 @@
             victoires: 0,
             defaites: 0,
             ratio: 0,
+            ratioEvolution: [],
         },
         created:function(){
             this.getData();
@@ -97,10 +107,14 @@
                     self.parties = reponse.data.parties;
                     self.victoires = reponse.data.victoires;
                     self.defaites = reponse.data.defaites;
+                    
                     if(self.parties.defaites == 0)
                         self.ratio = self.victoires;
                     else
                         self.ratio = self.victoires/self.defaites;
+
+                    self.ratioEvolution = reponse.data.ratioEvolution;
+
                 })
             },
         }
