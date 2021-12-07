@@ -5,6 +5,7 @@
     <meta charset="utf-8" />
     <tittle>Accueil</tittle>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
@@ -17,7 +18,7 @@
         <h1>Boutons</h1>
     </div>
     <!-- Trigger the modal with a button -->
-    <button type="button" class="btn btn-info btn-lg" id="button2j">Open Modal</button>
+    <button type="button" class="btn btn-info btn-lg" id="button2j">2 joueurs</button>
 
     <!-- Modal -->
     <div class="modal fade" id="Modal2j" role="dialog">
@@ -25,14 +26,23 @@
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div>
-                    <button type="button" class="btn btn-info btn-lg" id="create">Creer une partie</button>
+                <div class="MaDivModal">
+                    <div>
+                        <button type="button" class="btn btn-info btn-lg" id="create">Creer une partie</button>
+                    </div>
+                    <div>
+                        <form id="myForm">
+                            <label for="token">Rejoindre une partie</label>
+                            <input type="text" id="token" placeholder="code de la room a rejoindre"><br>
+                            <input type="submit" value="envoyer" id="submitBtn">
+                        </form>
+                        <br>
+                        <div>
+                            <button type="button" class="btn btn-info btn-lg" id="join">Rejoindre une partie aleatoire</button>
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <h5>Rejoindre une partie</h5>
-                    <input type="text" id="token" name="token">
-                </div>
-
+            </div>
         </div>
     </div>
     <script src="scripts/main.js"></script>

@@ -13,7 +13,6 @@
 //getapi(url_api);
 
 leaderboard();
-test();
 
 function leaderboard(){
 	console.log("function leaderboard start");
