@@ -4,9 +4,10 @@
     <meta charset="utf-8" />
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="./js/accueil.js"></script>
 
 </head>
 <body style="background-color:#121212;color:white;">
@@ -29,7 +30,10 @@
                 <a href="/leaderboard" class="btn btn-light " role="button" aria-pressed="true" style="font-family:Retron2000;">ScoreBoard</a>
             </div>
             <div class="row justify-content-center">
-                <a href="/auth" class="btn btn-light" role="button" aria-pressed="true" style="font-family:Retron2000;">Se Déconnecter</a>
+                <button id="logout" type="button" class="btn btn-info btn-light" style="font-family:Retron2000;">2 Joueurs</button>
+
+                <!--<a href="/auth" id="logout" class="btn btn-light" role="button" aria-pressed="true" style="font-family:Retron2000;">Se Déconnecter</a>
+            -->
             </div>
         </div>
     </div>
@@ -59,6 +63,17 @@
         $(document).ready(function () {
             $("#Button2j").click(function () {
                 $("#Modal2j").modal();
+            });
+        });
+
+        $(document).ready(function () {
+            $("#logout").click(function () {
+                try {
+                    Accueil.logout();
+                } catch (error) {
+                    console.log("auth_token doesn't exist");
+                };
+                
             });
         });
     </script>
