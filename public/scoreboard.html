@@ -25,22 +25,24 @@
         <v-app style="background: #121212;"class="ma-0 pa-0" >
             <v-progress-linear color="white" indeterminate reverse></v-progress-linear>
             <div style="color: white; position: absolute; right: 10em; z-index: 999; margin-top: 2em;">
-                <div class="anim"><v-btn href="./Accueil.html" class="white--text" x-large depressed elevation="2" outlined style="border: 3px solid white;">Retour</v-btn></div>
+            <div class="anim"><v-btn href="/accueil" class="white--text" x-large depressed elevation="2" outlined style="border: 3px solid white;">Retour</v-btn></div>
             </div>
 
-            <div style="color: white; position: absolute; left: 10em; z-index: 999; margin-top: 2em;">
+            <div style="color: white; position: absolute; left: 5em; z-index: 999; margin-top: 2em;">
                 <center>
-                    <h2 style="font-size: 3em;">Ratio<h2>
+                    <h2 style="font-size: 3em;">Ratio V/D<h2>
+                        
                     <p style="font-size: 2em;" v-if="ratio > 1"style="margin: auto auto; font-size: 1em;" class="Victoire--text" >{{ ratio }}</p>
                     <p style="font-size: 2em;" v-if="ratio == 1"style="margin: auto auto; font-size: 1em;" class="white--text" >{{ ratio }}</p>
-                    <p style="font-size: 2em;" v-if="ratio < 1"style="margin: auto auto; font-size: 1em;" class="Defaite--text" >{{ ratio }}</p>
-                    
+                    <p style="font-size: 2em;" v-if="ratio < 1"style="margin: auto auto; font-size: 1em;" class="Defaite--text" >{{ ratio }}</p>  
+
                     <h2 style="margin-top: 2em; font-size: 3em;">Parties<h2>
                     <p style="margin: 0.8em auto; font-size: 2em;">{{ parties.length }} </p>
                     <v-progress-circular style="margin: auto auto; stroke: red;" :width="15" :size="150"
-                        :value="(victoires/parties.length)*100" color="Victoire"></v-progress-circular>
+                        :value="(victoires/parties.length)*100" color="Victoire"></v-progress-circular>   
                 </center>
             </div>
+            
             <h1 style="color: white; margin: 0 auto; font-size: 3rem; top: 0;">SCOREBOARD</h1>
             
             <v-card color="background" fluid class="ma-0 pa-0 rounded-0 elevation-0">
@@ -74,7 +76,22 @@
                                         </v-simple-table> 
                                 </v-expansion-panel-content>
                         </v-expansion-panel>
+                            <v-sparkline style="margin: 2em auto auto auto;"
+                            :fill="fill"
+                            :gradient="selectedGradient"
+                            :line-width="width"
+                            :padding="padding"
+                            :smooth="radius || false"
+                            :value="ratioEvolution"
+                            auto-draw>
+                            <template v-slot:label="item">
+                                {{ item.value }}
+                            </template>
+                        </v-sparkline>
+                        <h3 v-if="ratioEvolution.length > 1" style="color: white;">Ratios des dernières parties</h3>
+                        
                     </v-expansion-panels>
+                    
                 </v-container>
             </v-card>
         </v-app>
@@ -99,7 +116,14 @@
             victoires: 0,
             defaites: 0,
             ratio: 0,
-            ratioEvolution: [],
+            
+            //Params sparkline
+            fill: false,
+            selectedGradient: ['white'],
+            padding: 10,
+            radius: 5,
+            ratioEvolution: [0],
+            width: 3,
         },
         created:function(){
             this.getData();
