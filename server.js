@@ -19,7 +19,7 @@ app.get('/game_ia', function(req, res){
     res.sendFile(path.join(__dirname, '/public/jeu_ia.html'));
 });
 app.get('/game', function(req, res){
-    res.sendFile(path.join(__dirname, '/public/jeu.html'));
+    res.sendFile(path.join(__dirname, '/public/jeu_duo.html'));
 });
 app.get('/', function(req, res){
     res.sendFile(path.join(__dirname, '/public/auth.html'));
