@@ -22,6 +22,14 @@ class Auth {
 class SignIn extends Auth {
     signInPseudo = document.getElementById('sign-in-pseudo');
     signInPassword = document.getElementById('sign-in-password');
+    forgotEmail = document.getElementById('forgot-email');
+    forgotButton = document.getElementById('forgot-button');
+    url = "";
+
+    constructor (url) {
+        super();
+        this.url = url;
+    }
 
     // send credentials to the server & retrieve the token
     async checkCredential () {
@@ -30,7 +38,7 @@ class SignIn extends Auth {
         })
 
         /*########## TODO: add the right endpoint ##########*/
-        const response = await fetch('https://61af166c3e2aba0017c48fe5.mockapi.io/auth/login', {
+        const response = await fetch(url + "auth/login", {
             method: 'POST',
             mode: 'cors',
             body: JSON.stringify({
@@ -38,6 +46,8 @@ class SignIn extends Auth {
                 password: this.signInPassword.value
             }),
             headers
+        }).catch((error) => {
+            this.statusMessage('Erreur: ' + error, 'WARN');
         });
 
         // retrieve token
@@ -45,15 +55,51 @@ class SignIn extends Auth {
             response.json().then( body => {
                 if (body.status == "ok") {
                     this.statusMessage('Authentification réussie', 'INFO');
-                    window.localStorage.setItem('token', body.data.token);
+                    window.localStorage.setItem('auth_token', body.data.token);
                     /*########### TODO: redirection to home page ###########*/
-                    window.location.href = 'Accueil.html';
+                    window.location.href = 'accueil';
                 } else if (body.status == 'ko') {
                     this.statusMessage(body.data.message, 'WARN');
                 }
             })
         } else {
-            this.statusMessage('Erreur réseau', 'WARN');
+            this.statusMessage('Erreur :' + response.status, 'WARN');
+        }
+    }
+
+    showForgotForm () {
+        this.forgotEmail.style.display = 'block'
+        this.forgotButton.style.display = 'block'
+    }
+
+    async pushForgotEmail () {
+        var headers = new Headers({
+            'Content-Type': 'application/json'
+        })
+
+        /*########## TODO: add the right endpoint ##########*/
+        const response = await fetch(url + 'auth/forgot', {
+            method: 'POST',
+            mode: 'cors',
+            body: JSON.stringify({
+                email: this.forgotEmail.value
+            }),
+            headers
+        }).catch((error) => {
+            this.statusMessage('Erreur: ' + error, 'WARN');
+        });
+
+        // send email
+        if (response.ok) {
+            response.json().then( body => {
+                if (body.status == "ok") {
+                    this.statusMessage('Email envoyé', 'INFO');
+                } else if (body.status == 'ko') {
+                    this.statusMessage(body.data.message, 'WARN');
+                }
+            })
+        } else {
+            this.statusMessage('Erreur :' + response.status, 'WARN');
         }
     }
 
@@ -73,6 +119,12 @@ class SignUp extends Auth {
     signUpEmail = document.getElementById('sign-up-email');
     signUpPseudo = document.getElementById('sign-up-pseudo');
     signUpPassword = document.getElementById('sign-up-password');
+    url = "";
+
+    constructor (url) {
+        super();
+        this.url = url;
+    }
 
     // send credentials to the server & retrieve the token
     async pushCredential () {
@@ -81,7 +133,7 @@ class SignUp extends Auth {
         })
 
         /*########## TODO: add the right endpoint ##########*/
-        const response = await fetch('https://61af166c3e2aba0017c48fe5.mockapi.io/auth/register', {
+        const response = await fetch(url + 'auth/register', {
             method: 'POST',
             mode: 'cors',
             body: JSON.stringify({
@@ -90,6 +142,8 @@ class SignUp extends Auth {
                 password: this.signUpPassword.value
             }),
             headers
+        }).catch((error) => {
+            this.statusMessage('Erreur: ' + error, 'WARN');
         });
 
         // register new user
@@ -105,7 +159,7 @@ class SignUp extends Auth {
                 }
             })
         } else {
-            this.statusMessage('Erreur réseau', 'WARN');
+            this.statusMessage('Erreur :' + response.status, 'WARN');
         }
     }
 

@@ -2,10 +2,13 @@ var express = require('express');
 var serve_static = require('serve-static');
 var http = require('http');
 var fs = require('fs');
+require('dotenv').config({path: './.env'});
 var path = require('path');
 const axios = require('axios');
 var app = express();
-app.use(serve_static(__dirname+"/public"));
+app.use(serve_static(__dirname + "/public"));
+
+app.engine('html', require('ejs').renderFile);
 
 var serveur = http.Server(app);
 serveur.listen(8080, function(){});
@@ -16,7 +19,7 @@ app.get('/', function(req, res){
     res.sendFile(path.join(__dirname, '/public/auth.html'));
 });
 app.get('/auth', function(req, res){
-    res.sendFile(path.join(__dirname, '/public/auth.html'));
+    res.render(path.join(__dirname, '/public', 'auth.html'), { url: process.env.API_URL });
 });
 app.get('/accueil', function(req, res){
     res.sendFile(path.join(__dirname, '/public/Accueil.html'));
