@@ -34,11 +34,11 @@
                         
                     <p style="font-size: 2em;" v-if="ratio > 1"style="margin: auto auto; font-size: 1em;" class="Victoire--text" >{{ ratio }}</p>
                     <p style="font-size: 2em;" v-if="ratio == 1"style="margin: auto auto; font-size: 1em;" class="white--text" >{{ ratio }}</p>
-                    <p style="font-size: 2em;" v-if="ratio < 1"style="margin: auto auto; font-size: 1em;" class="Defaite--text" >{{ ratio }}</p>  
+                    <p style="font-size: 2em;" v-if="1 > ratio"style="margin: auto auto; font-size: 1em;" class="Defaite--text" >{{ ratio }}</p>  
 
                     <h2 style="margin-top: 2em; font-size: 3em;">Parties<h2>
-                    <p style="margin: 0.8em auto; font-size: 2em;">{{ parties.length }} </p>
-                    <v-progress-circular style="margin: auto auto; stroke: red;" :width="15" :size="150"
+                    <p style="margin: auto auto; font-size: 2em;">{{ parties.length }} </p>
+                    <v-progress-circular style="margin: 1.5em auto; stroke: red;" :width="15" :size="150"
                         :value="(victoires/parties.length)*100" color="Victoire"></v-progress-circular>   
                 </center>
             </div>
@@ -76,7 +76,7 @@
                                         </v-simple-table> 
                                 </v-expansion-panel-content>
                         </v-expansion-panel>
-                            <v-sparkline style="margin: 2em auto auto auto;"
+                            <v-sparkline
                             :fill="fill"
                             :gradient="selectedGradient"
                             :line-width="width"
@@ -89,9 +89,7 @@
                             </template>
                         </v-sparkline>
                         <h3 v-if="ratioEvolution.length > 1" style="color: white;">Ratios des dernières parties</h3>
-                        
                     </v-expansion-panels>
-                    
                 </v-container>
             </v-card>
         </v-app>
@@ -120,8 +118,8 @@
             //Params sparkline
             fill: false,
             selectedGradient: ['white'],
-            padding: 10,
-            radius: 5,
+            padding: 5,
+            radius: 2,
             ratioEvolution: [0],
             width: 3,
         },
