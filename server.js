@@ -3,6 +3,7 @@ var serve_static = require('serve-static');
 var http = require('http');
 var fs = require('fs');
 var path = require('path');
+const axios = require('axios');
 var app = express();
 app.use(serve_static(__dirname+"/public"));
 
@@ -25,29 +26,32 @@ app.get('/leaderboard', function(req, res){
 });
 app.get('/scoreboard', function (req, res) {
     let data = {parties: [], victoires: 0, defaites: 0, ratioEvolution: []};
-    data.parties = [
-        {id: 5, result: "Victoire", pointsPlayer1: 10, pointsPlayer2: 2, duree: 200, date: "08/12/2021"},
-        {id: 4, result: "Defaite", pointsPlayer1: 7, pointsPlayer2: 10, duree: 900, date: "08/12/2021"},
-        {id: 3, result: "Victoire", pointsPlayer1: 10, pointsPlayer2: 4, duree: 500, date: "07/12/2021"},
-        {id: 2, result: "Victoire", pointsPlayer1: 10, pointsPlayer2: 0, duree: 200, date: "04/12/2021"},
-        {id: 1, result: "Defaite", pointsPlayer1: 1, pointsPlayer2: 10, duree: 200, date: "02/12/2021"},
         
-    ];
-    for(let i=0; i<data.parties.length; i++)
-    {
-        if(data.parties[i].result == "Victoire")
-            data.victoires++;
-        else
-            data.defaites++;
-    }
+    axios.get('https://svc-pong-esiea.azurewebsites.net/battle/leaderboard').then(resp => {
 
-    for(let i=0; i<data.parties.length; i++)
-    {
-        if(data.parties[i].pointsPlayer2 == 0)
-            data.ratioEvolution.push(data.parties[i].pointsPlayer1);
-        else
-            data.ratioEvolution.push(data.parties[i].pointsPlayer1 / data.parties[i].pointsPlayer2);
-    }
+        for(let i=0; i<Object.keys(resp.data).length; i++){
+            var obj = Object.keys(resp.data)[i];
+            data.parties.push(resp.data[obj]);
+        }
+
+        console.log(data.parties);
+        for(let i=0; i<data.parties.length; i++)
+        {
+            if(data.parties[i].result == "Victoire")
+                data.victoires++;
+            else
+                data.defaites++;
+        }
+
+        for(let i=0; i<data.parties.length; i++)
+        {
+            if(data.parties[i].pointsPlayer2 == 0)
+                data.ratioEvolution.push(data.parties[i].pointsPlayer1);
+            else
+                data.ratioEvolution.push(data.parties[i].pointsPlayer1 / data.parties[i].pointsPlayer2);
+        }
+        
+        res.send(data);
+    });
     
-    res.send(data);
 });
