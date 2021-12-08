@@ -12,17 +12,16 @@
 		<script src="js/ball.js"></script>
 		<script src = "js/racket.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-		<script src="js/Score.js"></script>
+		<script src = "js/Score.js"></script>
 		<canvas id="myCanvas"></canvas>
 		<script>
-			//game start : move the ball randomly at left or right
 			side = Math.floor(Math.random() * 2 );
-					
+			
 			var left_raq = new Racket(-1.5, 0, 0.05, 0.3);
 			var right_raq = new Racket(1.5, 0, 0.05, 0.3);
 			var vitesse = 0.12;
-			var ball_speed = 0.015;
 			var score = new Score();
+			var ball_speed = 0.015;
 
 			if(side == 0) //right
 				var ball = new Ball(0.02, 0xffffff, 0, 0, ball_speed, ball_speed);
@@ -33,10 +32,9 @@
 			const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 			
 			const renderer = new THREE.WebGLRenderer();
-			renderer.setSize( window.innerWidth, window.innerHeight );
+			renderer.setSize( window.innerWidth, window.innerHeight - (window.innerHeight/10) );
 			document.body.appendChild( renderer.domElement );
 
-			//canvas score
 			var canvas = document.getElementById("myCanvas");
 			var ctx = canvas.getContext("2d");
 			canvas.width = window.innerWidth;
@@ -49,6 +47,7 @@
 			ctx.fillStyle = "white";
 			ctx.fillText(textString , (canvas.width/2) - (textWidth / 2), canvas.height/2);
 			ctx.stroke();
+
 
 			//ball
 			const geometry = new THREE.CircleGeometry( ball.radius, 60 );
@@ -70,7 +69,6 @@
 			circle.position.x = pos[0];
 			circle.position.y = pos[1];
 
-			//game border
 			const border_points = [];
 			border_points.push(new THREE.Vector3(1.57, 0.72, 0));
 			border_points.push(new THREE.Vector3(1.57, -0.72, 0));
@@ -98,9 +96,8 @@
 			const dashed_line = new THREE.Line(geometry_dashed, material_dashed);
 			dashed_line.computeLineDistances();
 
-			//add scence
 			scene.add(border);
-			scene.add(dashed_line);			
+			scene.add(dashed_line);
 			scene.add(circle);
 			scene.add(palet_left);
 			scene.add(palet_right);
@@ -109,11 +106,47 @@
 
 			let keyPressed = {};
 
-			bod.addEventListener('keydown', (event) => { // Z, S
+			bod.addEventListener('keydown', (event) => { // Z, S & arrow UP/DOWN
 				keyPressed[event.keyCode] = true;
 
+					if (keyPressed[83] && keyPressed[38]) {
+						if (left_raq.posy- (left_raq.height/2) > -0.7) {
+							left_raq.posy -= vitesse;
+						} //down && (this.posy - 2) < limit_down
+						if (right_raq.posy + (right_raq.height/2) < 0.7) {
+							right_raq.posy += vitesse;
+						}
 
-					if (keyPressed[90] && left_raq.posy+ (left_raq.height/2) < 0.7) { //up && (this.posy + 2) < limit_up)
+					} else if (keyPressed[83] && keyPressed[40]) { //down && (this.posy - 2) < limit_down
+						if (left_raq.posy - (left_raq.height/2) > -0.7) {
+							left_raq.posy -= vitesse;
+						}
+						if (right_raq.posy - (right_raq.height/2)> -0.7) {
+							right_raq.posy -= vitesse;
+						}
+
+					} else if (keyPressed[90] && keyPressed[38]) { //down && (this.posy - 2) < limit_down
+						if (left_raq.posy + (left_raq.height/2) < 0.7) {
+							left_raq.posy += vitesse;
+						}
+						if (right_raq.posy + (right_raq.height/2) < 0.7) {
+							right_raq.posy += vitesse;
+						}
+					} else if (keyPressed[90] && keyPressed[40]) { //down && (this.posy - 2) < limit_down
+						if (left_raq.posy + (left_raq.height/2)< 0.7) {
+							left_raq.posy += vitesse;
+						}
+						if (right_raq.posy - (right_raq.height/2) > -0.7) {
+							right_raq.posy -= vitesse;
+						}
+					} else if (keyPressed[38] && right_raq.posy+ (right_raq.height/2) < 0.7) { //up && (this.posy + 2) < limit_up)
+
+						right_raq.posy += vitesse;
+
+					} else if (keyPressed[40] && right_raq.posy- (right_raq.height/2) > -0.7) { //down && (this.posy - 2) < limit_down
+						right_raq.posy -= vitesse;
+
+					} else if (keyPressed[90] && left_raq.posy+ (left_raq.height/2) < 0.7) { //up && (this.posy + 2) < limit_up)
 
 						left_raq.posy += vitesse;
 
@@ -136,8 +169,11 @@
 
 			bod.addEventListener('keyup', (event) => {
 				keyPressed[event.keyCode] = false;
+				right_raq.posy = palet_right.position.y;
 				left_raq.posy = palet_left.position.y;
+
 			});
+
 
 
 			//ball movement
@@ -147,7 +183,7 @@
 				var init_speed = ball.GetSpeed();
 				
 				//vertical limit
-				if (circle.position.y+ball.radius > 0.7 || circle.position.y-ball.radius < -0.7) {
+				if (circle.position.y+ ball.radius > 0.7 || circle.position.y-ball.radius < -0.7) {
 					ball.SetSpeedy(init_speed[1] * -1);
 				}
 
@@ -160,7 +196,7 @@
 					var textString = score.score_left + "   -   " + score.score_right;
 					textWidth = ctx.measureText(textString ).width;
 					ctx.fillText(textString , (canvas.width/2) - (textWidth / 2), canvas.height/2);
-					
+
 					//center
 					circle.position.x = 0;
 					circle.position.y = 0;
@@ -179,7 +215,7 @@
 					var textString = score.score_left + "   -   " + score.score_right;
 					textWidth = ctx.measureText(textString ).width;
 					ctx.fillText(textString , (canvas.width/2) - (textWidth / 2), canvas.height/2);
-					
+
 					//center
 					circle.position.x = 0;
 					circle.position.y = 0;
@@ -189,19 +225,6 @@
 					else //left
 						ball.SetSpeedx(-ball_speed, ball_speed);
 				}
-
-
-				//ia
-				if(circle.position.y > palet_right.position.y){
-					right_raq.posy += vitesse;
-				}
-
-				if(circle.position.y < palet_right.position.y){
-					right_raq.posy -= vitesse;
-				}
-
-				
-				//collision racket
 				if (circle.position.x-ball.radius < palet_left.position.x + (left_raq.width/2) && circle.position.x-ball.radius > palet_left.position.x - (left_raq.width/2)){
 
 					if (circle.position.y < palet_left.position.y + (left_raq.height/2) ){
@@ -243,8 +266,19 @@
 					}
 				}
 
-				//smooth
-				
+				if (Math.round((right_raq.posy - palet_right.position.y) * 100) == 0){
+
+				}
+				else if (right_raq.posy > palet_right.position.y && palet_right.position.y + (right_raq.height/2) < 0.7){
+					palet_right.position.y += vitesse/4;
+
+				}
+				else if (right_raq.posy < palet_right.position.y && palet_right.position.y - (right_raq.height/2) > -0.7){
+
+					palet_right.position.y -= vitesse/4;
+
+				}
+
 				if (Math.round((left_raq.posy - palet_left.position.y) * 100) == 0){
 
 				}
@@ -257,19 +291,6 @@
 					palet_left.position.y -= vitesse/4;
 
 				}
-				if (Math.round((right_raq.posy - palet_right.position.y) * 100) == 0){
-
-				}
-				else if (right_raq.posy > palet_right.position.y && palet_right.position.y + (right_raq.height/2) < 0.7){
-					palet_right.position.y += vitesse/8;
-
-				}
-				else if (right_raq.posy < palet_right.position.y && palet_right.position.y - (right_raq.height/2) > -0.7){
-
-					palet_right.position.y -= vitesse/8;
-
-				}
-				right_raq.posy = palet_right.position.y;
 
 				var update_speed = ball.GetSpeed();
 				circle.position.x += update_speed[0];
@@ -277,6 +298,7 @@
 			
 				renderer.render( scene, camera );
 			};
+
 			animate();
 		</script>
 	</body>
