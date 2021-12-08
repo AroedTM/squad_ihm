@@ -5,12 +5,15 @@
 		<title>Ball three.js</title>
 		<style>
 			body { margin: 0; }
+			canvas { background: black; display: block; margin: 0 auto; }
 		</style>
 	</head>
 	<body id = "bod" >
 		<script src="js/ball.js"></script>
 		<script src = "js/racket.js"></script>
 		<script src="node_modules/three/build/three.js"></script>
+		<script src = "Score.js"></script>
+		<canvas id="myCanvas"></canvas>
 		<script>
 			//game start : move the ball randomly at left or right
 			side = Math.floor(Math.random() * 2 );
@@ -23,15 +26,35 @@
 			
 			var left_raq = new Racket(-1.5, 0, 0.05, 0.2);
 			var right_raq = new Racket(1.5, 0, 0.05, 0.2);
-			var vitesse = 0.02;
+			var vitesse = 0.04;
+			var score = new Score();
+
 
 
 			const scene = new THREE.Scene();
 			const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 			
 			const renderer = new THREE.WebGLRenderer();
-			renderer.setSize( window.innerWidth, window.innerHeight );
+			renderer.setSize( window.innerWidth, window.innerHeight - (window.innerHeight/10) );
 			document.body.appendChild( renderer.domElement );
+
+			var canvas = document.getElementById("myCanvas");
+			var ctx = canvas.getContext("2d");
+			canvas.width = window.innerWidth;
+			canvas.height = window.innerHeight/10;
+			ctx.moveTo(100, 200);
+			ctx.font = "50px Retron2000";
+			var textString = score.score_left + "   -   " + score.score_right;
+			textWidth = ctx.measureText(textString ).width;
+
+			ctx.fillStyle = "white";
+			ctx.fillText(textString , (canvas.width/2) - (textWidth / 2), canvas.height/2);
+			ctx.stroke();
+
+
+
+
+
 
 			//ball
 			const geometry = new THREE.CircleGeometry( ball.radius, 60 );
@@ -64,61 +87,65 @@
 			bod.addEventListener('keydown', (event) => { // Z, S & arrow UP/DOWN
 				keyPressed[event.keyCode] = true;
 
-				if (keyPressed[83] && keyPressed[38]){
-						if (palet_left.position.y > -0.6){
+					if (keyPressed[83] && keyPressed[38]) {
+						if (palet_left.position.y > -0.6) {
 							palet_left.position.y -= vitesse;
 						} //down && (this.posy - 2) < limit_down
-						if (palet_right.position.y < 0.6){
+						if (palet_right.position.y < 0.6) {
 							palet_right.position.y += vitesse;
 						}
-						
-					}
-					else if (keyPressed[83] && keyPressed[40]){ //down && (this.posy - 2) < limit_down
-						if (palet_left.position.y > -0.6){
+
+					} else if (keyPressed[83] && keyPressed[40]) { //down && (this.posy - 2) < limit_down
+						if (palet_left.position.y > -0.6) {
 							palet_left.position.y -= vitesse;
 						}
-						if (palet_right.position.y > -0.6){
+						if (palet_right.position.y > -0.6) {
 							palet_right.position.y -= vitesse;
 						}
-						
-					}
-					else if (keyPressed[90] && keyPressed[38]){ //down && (this.posy - 2) < limit_down
-						if (palet_left.position.y < 0.6){
+
+					} else if (keyPressed[90] && keyPressed[38]) { //down && (this.posy - 2) < limit_down
+						if (palet_left.position.y < 0.6) {
 							palet_left.position.y += vitesse;
 						}
-						if (palet_right.position.y < 0.6){
+						if (palet_right.position.y < 0.6) {
 							palet_right.position.y += vitesse;
 						}
-					}
-					else if (keyPressed[90] && keyPressed[40]){ //down && (this.posy - 2) < limit_down
-						if (palet_left.position.y < 0.6){
+					} else if (keyPressed[90] && keyPressed[40]) { //down && (this.posy - 2) < limit_down
+						if (palet_left.position.y < 0.6) {
 							palet_left.position.y += vitesse;
 						}
-						if (palet_right.position.y > -0.6){
+						if (palet_right.position.y > -0.6) {
 							palet_right.position.y -= vitesse;
 						}
-					}
-					else if (keyPressed[38] && palet_right.position.y < 0.6){ //up && (this.posy + 2) < limit_up)
-					
-					palet_right.position.y += vitesse;
-					
-					}
-					else if (keyPressed[40] && palet_right.position.y > -0.6){ //down && (this.posy - 2) < limit_down
+					} else if (keyPressed[38] && palet_right.position.y < 0.6) { //up && (this.posy + 2) < limit_up)
+
+						palet_right.position.y += vitesse;
+
+					} else if (keyPressed[40] && palet_right.position.y > -0.6) { //down && (this.posy - 2) < limit_down
 						palet_right.position.y -= vitesse;
-					}
-					else if (keyPressed[90] && palet_left.position.y < 0.6){ //up && (this.posy + 2) < limit_up)
-					
-					palet_left.position.y += vitesse;
-					
-					}
-					else if (keyPressed[83] && palet_left.position.y > -0.6){ //down && (this.posy - 2) < limit_down
+					} else if (keyPressed[90] && palet_left.position.y < 0.6) { //up && (this.posy + 2) < limit_up)
+
+						palet_left.position.y += vitesse;
+
+					} else if (keyPressed[83] && palet_left.position.y > -0.6) { //down && (this.posy - 2) < limit_down
 						palet_left.position.y -= vitesse;
+						ctx.clearRect(0, 0, canvas.width, canvas.height);
+						score.score_left+= 1;
+						var textString = score.score_left + "   -   " + score.score_right;
+						textWidth = ctx.measureText(textString ).width;
+						ctx.fillText(textString , (canvas.width/2) - (textWidth / 2), canvas.height/2);
 					}
-					renderer.render( scene, camera );
+				bod.addEventListener('keyup', (event) => {
+					keyPressed[event.keyCode] = false;
+
+				});
+					renderer.render(scene, camera);
+
 			});
 
 			bod.addEventListener('keyup', (event) => {
 				keyPressed[event.keyCode] = false;
+
 			});
 
 
@@ -147,6 +174,10 @@
 			};
 
 			animate();
+
+
 		</script>
+
+
 	</body>
 </html>
