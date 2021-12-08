@@ -2,9 +2,13 @@ var express = require('express');
 var serve_static = require('serve-static');
 var http = require('http');
 var fs = require('fs');
+require('dotenv').config({path: './.env'});
+var path = require('path');
 
 var app = express();
 app.use(serve_static(__dirname+"/public"));
+
+app.engine('html', require('ejs').renderFile);
 
 var serveur = http.Server(app);
 serveur.listen(8080, function(){});
@@ -31,4 +35,8 @@ app.get('/scoreboard', function (req, res) {
         data.ratioEvolution.push(data.parties[i].pointsPlayer1 / data.parties[i].pointsPlayer2);
     }
     res.send(data);
+});
+
+app.get('/auth', function(req, res) {
+    res.render(path.join(__dirname, '/public', 'auth.html'), { url: process.env.API_URL });
 });
