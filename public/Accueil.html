@@ -30,10 +30,7 @@
                 <a href="/leaderboard" class="btn btn-light " role="button" aria-pressed="true" style="font-family:Retron2000;">ScoreBoard</a>
             </div>
             <div class="row justify-content-center">
-                <button id="logout" type="button" class="btn btn-info btn-light" style="font-family:Retron2000;">2 Joueurs</button>
-
-                <!--<a href="/auth" id="logout" class="btn btn-light" role="button" aria-pressed="true" style="font-family:Retron2000;">Se Déconnecter</a>
-            -->
+                <button id="logout" type="button" class="btn btn-info btn-light" style="font-family:Retron2000;">Se déconnecter</button>
             </div>
         </div>
     </div>
@@ -68,12 +65,7 @@
 
         $(document).ready(function () {
             $("#logout").click(function () {
-                try {
-                    Accueil.logout();
-                } catch (error) {
-                    console.log("auth_token doesn't exist");
-                };
-                
+                Accueil.logout();
             });
         });
     </script>
