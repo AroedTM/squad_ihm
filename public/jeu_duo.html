@@ -190,7 +190,6 @@
 					keyPressed[event.keyCode] = false;
 
 				});
-					socket.emit('move', {"gameId":gameId, "position":get_raq().posy, "movingBat": mySide});
 					renderer.render(scene, camera);
 
 			});
@@ -234,7 +233,6 @@
 					else //left
 						ball.SetSpeedx(-ball_speed, ball_speed);
 					
-					socket.emit('ball', {"gameId":gameId, "x": circle.position.x, "y": circle.position.y, "speedx": ball.GetSpeed()[0], "speedy": ball.GetSpeed()[1]});
 				}
 
 				else if (circle.position.x-ball.radius < -1.55) {
@@ -255,7 +253,6 @@
 					else //left
 						ball.SetSpeedx(-ball_speed, ball_speed);
 					
-					socket.emit('ball', {"gameId":gameId, "x": circle.position.x, "y": circle.position.y, "speedx": ball.GetSpeed()[0], "speedy": ball.GetSpeed()[1]});
 				}
 				if (circle.position.x-ball.radius < palet_left.position.x + (left_raq.width/2) && circle.position.x-ball.radius > palet_left.position.x - (left_raq.width/2)){
 
@@ -331,10 +328,9 @@
 				if (mySide === "left-bat") {
 					socket.emit('ball', {"gameId":gameId, "x": circle.position.x, "y": circle.position.y, "speedx": ball.GetSpeed()[0], "speedy": ball.GetSpeed()[1]});
 				}
+				socket.emit('move', {"gameId":gameId, "position":get_raq().posy, "movingBat": mySide});
 				renderer.render( scene, camera );
 			};
-
-			animate();
 
 			socket.on('full', ()=> {
 				animate();
