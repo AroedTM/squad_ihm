@@ -47,7 +47,7 @@ class SignIn extends Auth {
                     this.statusMessage('Authentification réussie', 'INFO');
                     window.localStorage.setItem('token', body.data.token);
                     /*########### TODO: redirection to home page ###########*/
-                    window.location.href = 'Accueil.html';
+                    window.location.href = 'accueil';
                 } else if (body.status == 'ko') {
                     this.statusMessage(body.data.message, 'WARN');
                 }
