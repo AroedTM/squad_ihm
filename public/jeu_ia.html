@@ -11,7 +11,7 @@
 	<body id = "bod" >
 		<script src="js/ball.js"></script>
 		<script src = "js/racket.js"></script>
-		<script src="../node_modules/three/build/three.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 		<script src="js/Score.js"></script>
 		<canvas id="myCanvas"></canvas>
 		<script>
@@ -134,6 +134,10 @@
 					else if (keyPressed[83] && palet_left.position.y > -0.6){ //down && (this.posy - 2) < limit_down
 						palet_left.position.y -= vitesse;
 					}
+					else if (keyPressed[27]){
+                        window.open("Accueil.html");
+                        window.close();
+                    }
 					renderer.render( scene, camera );
 			});
 
