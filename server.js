@@ -5,7 +5,7 @@ var fs = require('fs');
 require('dotenv').config({path: './.env'});
 var path = require('path');
 var app = express();
-app.use(serve_static(__dirname+"/public"));
+app.use(serve_static(__dirname + "/public"));
 
 app.engine('html', require('ejs').renderFile);
 
@@ -36,9 +36,8 @@ app.get('/scoreboard', function (req, res) {
         {id: 1, result: "Defaite", pointsPlayer1: 1, pointsPlayer2: 10, duree: 200, date: "02/12/2021"},
         
     ];
-    for(let i=0; i<data.parties.length; i++)
-    {
-        if(data.parties[i].result == "Victoire")
+    for (let i = 0; i < data.parties.length; i++) {
+        if (data.parties[i].result == "Victoire")
             data.victoires++;
         else
             data.defaites++;
@@ -54,3 +53,4 @@ app.get('/scoreboard', function (req, res) {
     
     res.send(data);
 });
+
