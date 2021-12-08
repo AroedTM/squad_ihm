@@ -5,12 +5,15 @@
 		<title>Ball three.js</title>
 		<style>
 			body { margin: 0; }
+			canvas { background: black; display: block; margin: 0 auto; }
 		</style>
 	</head>
 	<body id = "bod" >
 		<script src="js/ball.js"></script>
 		<script src = "js/racket.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+		<script src="js/Score.js"></script>
+		<canvas id="myCanvas"></canvas>
 		<script>
 			//game start : move the ball randomly at left or right
 			side = Math.floor(Math.random() * 2 );
@@ -24,6 +27,7 @@
 			var left_raq = new Racket(-1.5, 0, 0.05, 0.2);
 			var right_raq = new Racket(1.5, 0, 0.05, 0.2);
 			var vitesse = 0.02;
+			var score = new Score();
 
 
 			const scene = new THREE.Scene();
@@ -32,6 +36,22 @@
 			const renderer = new THREE.WebGLRenderer();
 			renderer.setSize( window.innerWidth, window.innerHeight );
 			document.body.appendChild( renderer.domElement );
+
+			//canvas
+			var canvas = document.getElementById("myCanvas");
+			var ctx = canvas.getContext("2d");
+			canvas.width = window.innerWidth;
+			canvas.height = window.innerHeight/10;
+			ctx.moveTo(100, 200);
+			ctx.font = "50px Retron2000";
+			var textString = score.score_left + "   -   " + score.score_right;
+			textWidth = ctx.measureText(textString ).width;
+
+			ctx.fillStyle = "white";
+			ctx.fillText(textString , (canvas.width/2) - (textWidth / 2), canvas.height/2);
+			ctx.stroke();
+
+
 
 			//ball
 			const geometry = new THREE.CircleGeometry( ball.radius, 60 );
@@ -56,12 +76,12 @@
 			scene.add(circle);
 			scene.add(palet_left);
 			scene.add(palet_right);
-			camera.position.z = 1;
+			camera.position.z = 1.5;
 
 
 			let keyPressed = {};
 
-			bod.addEventListener('keydown', (event) => { // Z, S & arrow UP/DOWN
+			bod.addEventListener('keydown', (event) => { // Z, S
 				keyPressed[event.keyCode] = true;
 
 				if (keyPressed[83] && keyPressed[38]){
@@ -114,6 +134,10 @@
 					else if (keyPressed[83] && palet_left.position.y > -0.6){ //down && (this.posy - 2) < limit_down
 						palet_left.position.y -= vitesse;
 					}
+					else if (keyPressed[27]){
+                        window.open("Accueil.html");
+                        window.close();
+                    }
 					renderer.render( scene, camera );
 			});
 
@@ -135,10 +159,52 @@
 				}
 
 				//horizontal limit
-				if (circle.position.x > 1.6 || circle.position.x < -1.6) {
-					ball.SetSpeedx(init_speed[0] * -1);
+				if (circle.position.x > 1.6) {
+					side = Math.floor(Math.random() * 2 );
+
+					ctx.clearRect(0, 0, canvas.width, canvas.height);
+					score.score_left+= 1;
+					var textString = score.score_left + "   -   " + score.score_right;
+					textWidth = ctx.measureText(textString ).width;
+					ctx.fillText(textString , (canvas.width/2) - (textWidth / 2), canvas.height/2);
+					
+					//center
+					circle.position.x = 0;
+					circle.position.y = 0;
+
+					if(side == 0) //right
+						ball.SetSpeedx(0.015, 0.015);
+					else //left
+						ball.SetSpeedx(-0.015, 0.015);
 				}
 
+				else if (circle.position.x < -1.6) {
+					side = Math.floor(Math.random() * 2 );
+
+					ctx.clearRect(0, 0, canvas.width, canvas.height);
+					score.score_right+= 1;
+					var textString = score.score_left + "   -   " + score.score_right;
+					textWidth = ctx.measureText(textString ).width;
+					ctx.fillText(textString , (canvas.width/2) - (textWidth / 2), canvas.height/2);
+					
+					//center
+					circle.position.x = 0;
+					circle.position.y = 0;
+
+					if(side == 0) //right
+						ball.SetSpeedx(0.015, 0.015);
+					else //left
+						ball.SetSpeedx(-0.015, 0.015);
+				}
+
+				if(circle.position.y > palet_right.position.y){
+					palet_right.position.y += vitesse/1.5;
+				}
+
+				if(circle.position.y < palet_right.position.y){
+					palet_right.position.y -= vitesse/1.5;
+				}
+				
 				var update_speed = ball.GetSpeed();
 				circle.position.x += update_speed[0];
 				circle.position.y += update_speed[1];

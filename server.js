@@ -9,7 +9,7 @@ app.use(serve_static(__dirname+"/public"));
 var serveur = http.Server(app);
 serveur.listen(8080, function(){});
 app.get('/game', function(req, res){
-    res.sendFile(path.join(__dirname, '/public/jeu.html'));
+    res.sendFile(path.join(__dirname, '/public/jeu_ia.html'));
 });
 app.get('/', function(req, res){
     res.sendFile(path.join(__dirname, '/public/auth.html'));
