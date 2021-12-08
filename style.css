@@ -9,7 +9,6 @@
     margin-top:30px;
     margin-bottom:30px;
 }
-
 #Boutons{
     border: white 4px solid;
     margin-left:340px   ;
@@ -18,7 +17,6 @@
     width:40%;
     position:center;
 }
-
 .MaDivModal {
     display: flex;
     justify-content: space-around;
@@ -26,19 +24,15 @@
     position: relative;
     top: 50%;
     transform: translateY(-50%);
-    font-family: Retron2000;
 }
 
 #submitBtn {
     background-color: #140602;
     margin-left: 35%;
-    color: white;
 }
 
 #create {
     background-color: #140602;
-    top: 50%;
-    transform: translateY(50%);
 }
 
 #join {
@@ -53,5 +47,6 @@
 }
 
 .modal-content {
-    height: 80%;
+    height: 40%;
+    background-color: #524F4E;
 }
