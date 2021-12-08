@@ -47,3 +47,6 @@ app.get('/scoreboard', function (req, res) {
     }
     res.send(data);
 });
+
+
+   

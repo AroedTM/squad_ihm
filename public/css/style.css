@@ -1,50 +1,57 @@
-body {
-    background-color: #121212;
-    color: black;
+#logo{
+    margin-top:100px;
+    margin-bottom:50px;
+}
+.col{
+    flex-grow:0;
+}
+.row{
+    margin-top:30px;
+    margin-bottom:30px;
 }
 
-.LeaderBoard {
-    background-color: green;
-    position: relative;
-    right: -69em;
-    top: 1.5em;
-    width: 20%;
-    height: auto;
-    text-align: center;
+#Boutons{
+    border: white 4px solid;
+    margin-left:340px   ;
+    margin-right:0;
+    padding:0 0 0 0;
+    width:40%;
+    position:center;
 }
 
-.Logo {
-    border-block-color: white;
-    position: relative;
-    width: 20%;
-    height: 5%;
+.MaDivModal {
     display: flex;
-    flex-direction: column;
-    align-content: center;
-    justify-content: flex-start;
-    align-items: center;
-    flex-wrap: nowrap;
-    right: -37em;
-    top: 7em;
-}
-
-img {
-    width: 50%;
-    height: 25%;
-    border: white 2px solid;
-}
-
-.Boutons {
-    border: white 2px solid;
-    background-color: red;
+    justify-content: space-around;
+    color: white;
     position: relative;
-    right: -34em;
-    top: 9em;
-    height: 50%;
-    width: 25%;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: Retron2000;
 }
-#1Joueur{
-    position:relative;
-    right:80%;
-    top:5%;
+
+#submitBtn {
+    background-color: #140602;
+    margin-left: 35%;
+    color: white;
+}
+
+#create {
+    background-color: #140602;
+    top: 50%;
+    transform: translateY(50%);
+}
+
+#join {
+    background-color: #140602;
+}
+
+.modal-dialog {
+    height: 60%;
+    position: relative;
+    top: 25%;
+    transform: translateY(-50%);
+}
+
+.modal-content {
+    height: 80%;
 }
