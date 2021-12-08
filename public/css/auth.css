@@ -51,7 +51,7 @@ body {
     cursor: pointer;
 }
 
-#sign-in-tab-container, #sign-up-tab-container {
+#sign-in-tab-container, #sign-up-tab-container, #forgot-container {
     padding: 40px;
     width: 100%;
     display: none;
@@ -62,14 +62,14 @@ body {
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
 }
-#sign-in-tab-container input, #sign-up-tab-container input {
+#sign-in-tab-container input, #sign-up-tab-container input, #forgot-container input {
     align-self: stretch;
     margin: 20px 40px;
     padding-left: 10px;
     height: 40px;
     border-radius: 8px;
 }
-#sign-in-tab-container button, #sign-up-tab-container button {
+#sign-in-tab-container button, #sign-up-tab-container button, #forgot-container button {
     align-self: stretch;
     margin: 20px 40px;
     height: 40px;

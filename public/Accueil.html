@@ -4,10 +4,12 @@
     <meta charset="utf-8" />
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="https://cdn.socket.io/4.4.0/socket.io.min.js" integrity="sha384-1fOn6VtTq3PWwfsOrk45LnYcGosJwzMHv+Xh/Jx5303FVOXzEnw0EpLv30mtjmlj" crossorigin="anonymous"></script>
+    <script src="./js/accueil.js"></script>
+
 </head>
 <body style="background-color:#121212;color:white;">
     <div class="container">
@@ -19,7 +21,7 @@
         <div id="Boutons" class="container  ">
             <div class="row justify-content-center">
                 <div class="col" style="flex-grow:0;">
-                    <button id="1j" type="button" class="btn btn-light" style="font-family:Retron2000;">1 Joueur</button>
+                    <a href="/game" class="btn btn-light " role="button" aria-pressed="true" style="font-family:Retron2000;">1 Joueur</a>
                 </div>
                 <div class="col" style="flex-grow:0;">
                     <button id="Button2j" type="button" class="btn btn-info btn-light" style="font-family:Retron2000;">2 Joueurs</button>
@@ -27,22 +29,18 @@
             </div>
             <div class="row justify-content-center">
                 <a href="/leaderboard" class="btn btn-light " role="button" aria-pressed="true" style="font-family:Retron2000;">ScoreBoard</a>
-                <!--<button id="LB" type="button" class="btn btn-light" style="font-family:Retron2000;">LeaderBoard</button>-->
             </div>
             <div class="row justify-content-center">
-                <a href="/auth" class="btn btn-light" role="button" aria-pressed="true" style="font-family:Retron2000;">Se Déconnecter</a>
-                <!--<button id="logout" type="button" class="btn btn-light" style="font-family:Retron2000;">Se Déconnecter</button>-->
+                <button id="logout" type="button" class="btn btn-info btn-light" style="font-family:Retron2000;">Se déconnecter</button>
             </div>
         </div>
     </div>
     <div class="modal fade" id="Modal2j" role="dialog">
         <div class="modal-dialog">
-
-            <!-- Modal content-->
             <div class="modal-content" style="background-color: rgba(70, 70, 70, 0.7);">
                 <div class="MaDivModal">
                     <div>
-                        <button type="button" class="btn btn-info btn-lg" id="create">Creer une partie</button>
+                        <button type="button" class="btn btn-info btn-light" id="create">Creer une partie</button>
                     </div>
                     <div>
                         <label for="token">Rejoindre une partie</label>
@@ -50,7 +48,7 @@
                         <input type="submit" value="envoyer" id="submitBtn">
                         <br>
                         <div>
-                            <button type="button" class="btn btn-info btn-lg" id="join">Rejoindre une partie aleatoire</button>
+                            <button type="button" class="btn btn-info btn-light" id="join">Rejoindre une partie aleatoire</button>
                         </div>
                     </div>
                 </div>
@@ -62,6 +60,12 @@
         $(document).ready(function () {
             $("#Button2j").click(function () {
                 $("#Modal2j").modal();
+            });
+        });
+
+        $(document).ready(function () {
+            $("#logout").click(function () {
+                Accueil.logout();
             });
         });
     </script>
