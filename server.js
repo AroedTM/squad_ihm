@@ -34,7 +34,6 @@ app.get('/scoreboard', function (req, res) {
             data.parties.push(resp.data[obj]);
         }
 
-        console.log(data.parties);
         for(let i=0; i<data.parties.length; i++)
         {
             if(data.parties[i].result == "Victoire")
