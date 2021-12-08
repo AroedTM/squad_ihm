@@ -16,6 +16,8 @@
 		<canvas id="myCanvas"></canvas>
 		<script>
 			side = Math.floor(Math.random() * 2 );
+
+			var score_max = 10;
 			
 			var left_raq = new Racket(-1.5, 0, 0.05, 0.3);
 			var right_raq = new Racket(1.5, 0, 0.05, 0.3);
@@ -183,7 +185,7 @@
 				var init_speed = ball.GetSpeed();
 				
 				//vertical limit
-				if (circle.position.y+ ball.radius > 0.7 || circle.position.y-ball.radius < -0.7) {
+				if ((circle.position.y+ball.radius > 0.7 && ball.GetSpeed()[1] > 0) || (circle.position.y-ball.radius < -0.7  && ball.GetSpeed()[1] < 0)) {
 					ball.SetSpeedy(init_speed[1] * -1);
 				}
 
@@ -193,6 +195,10 @@
 
 					ctx.clearRect(0, 0, canvas.width, canvas.height);
 					score.score_left+= 1;
+					if(score.score_left == score_max) {
+						window.alert("Le joueur 1 a gagné !");
+						window.location.replace("Accueil.html");
+					}
 					var textString = score.score_left + "   -   " + score.score_right;
 					textWidth = ctx.measureText(textString ).width;
 					ctx.fillText(textString , (canvas.width/2) - (textWidth / 2), canvas.height/2);
@@ -212,6 +218,10 @@
 
 					ctx.clearRect(0, 0, canvas.width, canvas.height);
 					score.score_right+= 1;
+					if(score.score_right == score_max) {
+						window.alert("Le joueur 2 a gagné !");
+						window.location.replace("Accueil.html");
+					}
 					var textString = score.score_left + "   -   " + score.score_right;
 					textWidth = ctx.measureText(textString ).width;
 					ctx.fillText(textString , (canvas.width/2) - (textWidth / 2), canvas.height/2);
