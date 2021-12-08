@@ -37,7 +37,7 @@
 			renderer.setSize( window.innerWidth, window.innerHeight );
 			document.body.appendChild( renderer.domElement );
 
-			//canvas
+			//canvas score
 			var canvas = document.getElementById("myCanvas");
 			var ctx = canvas.getContext("2d");
 			canvas.width = window.innerWidth;
@@ -50,8 +50,6 @@
 			ctx.fillStyle = "white";
 			ctx.fillText(textString , (canvas.width/2) - (textWidth / 2), canvas.height/2);
 			ctx.stroke();
-
-
 
 			//ball
 			const geometry = new THREE.CircleGeometry( ball.radius, 60 );
@@ -72,7 +70,20 @@
 			var pos = ball.GetPos();
 			circle.position.x = pos[0];
 			circle.position.y = pos[1];
-		
+
+			//game border
+			const border_points = [];
+			border_points.push(new THREE.Vector3(1.55, 0.7, 0));
+			border_points.push(new THREE.Vector3(1.55, -0.7, 0));
+			border_points.push(new THREE.Vector3(-1.55, -0.7, 0));
+			border_points.push(new THREE.Vector3(-1.55, 0.7, 0));
+			border_points.push(new THREE.Vector3(1.55, 0.7, 0));
+
+			const geometry_border = new THREE.BufferGeometry().setFromPoints(border_points);
+			const material_border = new THREE.LineBasicMaterial();
+			const border = new THREE.Line(geometry_border, material_border);
+
+			scene.add(border);			
 			scene.add(circle);
 			scene.add(palet_left);
 			scene.add(palet_right);
