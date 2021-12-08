@@ -31,18 +31,18 @@
 
 #submitBtn {
     background-color: #140602;
-    margin-left: 35%;
+    margin-left: 25%;
     color: white;
 }
 
 #create {
-    background-color: #140602;
+ 
     top: 50%;
     transform: translateY(50%);
 }
 
 #join {
-    background-color: #140602;
+
 }
 
 .modal-dialog {
