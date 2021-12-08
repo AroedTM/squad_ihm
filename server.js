@@ -98,6 +98,9 @@ io.on('connection', (socket) => {
 	socket.on('move', (data) => {
 		socket.to(data.gameId).emit('move', {"movingBat": data.movingBat, "position": data.position});
 	});
+	socket.on('ball', (data) => {
+		socket.to(data.gameId).emit('ball', {"posx": data.posx, "posy": data.posy, "speedx": data.speedx, "speedy": data.speedy, });
+	});
   socket.on('disconnect', function () {
     //console.log('client disconnected');
   });

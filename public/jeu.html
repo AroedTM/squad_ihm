@@ -13,6 +13,31 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 		<script src="https://cdn.socket.io/4.4.0/socket.io.min.js" integrity="sha384-1fOn6VtTq3PWwfsOrk45LnYcGosJwzMHv+Xh/Jx5303FVOXzEnw0EpLv30mtjmlj" crossorigin="anonymous"></script>
 		<script>
+
+			//Websocket
+			const socket = io();
+
+			function findGetParameter(parameterName) {
+				var result = null,
+					tmp = [];
+				var items = location.search.substr(1).split("&");
+				for (var index = 0; index < items.length; index++) {
+					tmp = items[index].split("=");
+					if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
+				}
+				return result;
+			}
+
+			var gameId = findGetParameter("gameId");
+
+			if ( gameId != null) {
+				socket.emit('join', {"gameId": gameId});
+			}
+
+			let myBat;
+			let movingBat;
+			let mySide;
+
 			//game start : move the ball randomly at left or right
 			side = Math.floor(Math.random() * 2 );
 			
@@ -116,13 +141,12 @@
 						palet_left.position.y -= vitesse;
 					}
 					renderer.render( scene, camera );
+					socket.emit('move', {"gameId":gameId, "position":get_palet().position.y, "movingBat": mySide});
 			});
 
 			bod.addEventListener('keyup', (event) => {
 				keyPressed[event.keyCode] = false;
 			});
-
-
 
 			//ball movement
 			const animate = function () {
@@ -147,42 +171,49 @@
 				renderer.render( scene, camera );
 			};
 
-			animate();
-			
-			//Websocket
-
-			const socket = io();
-
-			function findGetParameter(parameterName) {
-				var result = null,
-				tmp = [];
-				var items = location.search.substr(1).split("&");
-				for (var index = 0; index < items.length; index++) {
-					tmp = items[index].split("=");
-					if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
-				}
-				return result;
-			}
-        	var gameId = findGetParameter("gameId");
-
-			if ( gameId != null) {
-				socket.emit('join', {"gameId": gameId});
-				document.getElementById("id_game").innerHTML = gameId;
-			}
-			
 			socket.on('full', ()=> {
-				document.getElementById("id_game").style.display = "none"
+				animate();
 			})
 
 			socket.on('side', (givenBat) => {
-				movingBatId = givenBat;
-				movingBat = document.getElementById(movingBatId);
+				mySide = givenBat;
 			});
 
 			socket.on('move', function(data) {
-				var movedBat = document.getElementById(data.movingBat);
-				movedBat.style.top = data.position;
+				switch (data.movingBat) {
+					case "left-bat":
+						palet_left.position.y = data.position
+						break;
+					case "right-bat":
+						palet_right.position.y = data.position
+						break;
+					default:
+						return;
+				}
+
 			});
+
+			function get_palet() {
+				selectedPalet = palet_left
+				if (mySide === "right-bat") {
+					selectedPalet = palet_right
+				}
+				return selectedPalet
+			}
+
+			socket.on('ball', (data) => {
+				ball.posx = data.posx
+				ball.posy = data.posy
+				ball.speedx = data.speedx
+				ball.speedy = data.speedy
+			});
+
+			if (mySide === "left-bat") {
+				setInterval( () => {
+					socket.emit('ball', {"gameId":gameId, "x": ball.posx, "y": ball.posy, "speedx": ball.speedx, "speedy": ball.speedy});
+				},100);
+			}
+
 		</script>
 	</body>
 </html>
