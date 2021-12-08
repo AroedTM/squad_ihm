@@ -40,12 +40,14 @@ class SignIn extends Auth {
         /*########## TODO: add the right endpoint ##########*/
         const response = await fetch(url + "auth/login", {
             method: 'POST',
-            mode: 'same-origin',
+            mode: 'cors',
             body: JSON.stringify({
                 username: this.signInPseudo.value,
                 password: this.signInPassword.value
             }),
             headers
+        }).catch((error) => {
+            this.statusMessage('Erreur: ' + error, 'WARN');
         });
 
         // retrieve token
@@ -61,7 +63,7 @@ class SignIn extends Auth {
                 }
             })
         } else {
-            this.statusMessage('Erreur réseau', 'WARN');
+            this.statusMessage('Erreur :' + response.status, 'WARN');
         }
     }
 
@@ -78,11 +80,13 @@ class SignIn extends Auth {
         /*########## TODO: add the right endpoint ##########*/
         const response = await fetch(url + 'auth/forgot', {
             method: 'POST',
-            mode: 'same-origin',
+            mode: 'cors',
             body: JSON.stringify({
                 email: this.forgotEmail.value
             }),
             headers
+        }).catch((error) => {
+            this.statusMessage('Erreur: ' + error, 'WARN');
         });
 
         // send email
@@ -95,7 +99,7 @@ class SignIn extends Auth {
                 }
             })
         } else {
-            this.statusMessage('Erreur réseau', 'WARN');
+            this.statusMessage('Erreur :' + response.status, 'WARN');
         }
     }
 
@@ -131,13 +135,15 @@ class SignUp extends Auth {
         /*########## TODO: add the right endpoint ##########*/
         const response = await fetch(url + 'auth/register', {
             method: 'POST',
-            mode: 'same-origin',
+            mode: 'cors',
             body: JSON.stringify({
                 email: this.signUpEmail.value,
                 username: this.signUpPseudo.value,
                 password: this.signUpPassword.value
             }),
             headers
+        }).catch((error) => {
+            this.statusMessage('Erreur: ' + error, 'WARN');
         });
 
         // register new user
@@ -153,7 +159,7 @@ class SignUp extends Auth {
                 }
             })
         } else {
-            this.statusMessage('Erreur réseau', 'WARN');
+            this.statusMessage('Erreur :' + response.status, 'WARN');
         }
     }
 
