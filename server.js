@@ -4,12 +4,19 @@ var http = require('http');
 var fs = require('fs');
 var path = require('path');
 var app = express();
+const server = http.createServer(app);
+const { Server } = require("socket.io");
+const io = new Server(server) ;
+
+
 app.use(serve_static(__dirname+"/public"));
 
-var serveur = http.Server(app);
-serveur.listen(8080, function(){});
-app.get('/game', function(req, res){
+server.listen(8080, function(){});
+app.get('/game_ia', function(req, res){
     res.sendFile(path.join(__dirname, '/public/jeu_ia.html'));
+});
+app.get('/game', function(req, res){
+    res.sendFile(path.join(__dirname, '/public/jeu.html'));
 });
 app.get('/', function(req, res){
     res.sendFile(path.join(__dirname, '/public/auth.html'));
@@ -47,3 +54,52 @@ app.get('/scoreboard', function (req, res) {
     }
     res.send(data);
 });
+
+const games = {};
+
+io.on('connection', (socket) => {
+    console.log(socket.handshake.address)
+
+  socket.on('button', function(page){
+    io.emit("button", page);
+  });
+	socket.on('create', () => {
+		let newGameId = guid();
+		games[newGameId] = {
+			"gameId": newGameId,
+			"clients": [],
+		}
+		socket.emit('create', {"gameId": newGameId});
+	});
+	socket.on('join', (data) => {
+		let gameId = data.gameId;
+		if ( (! games[gameId]) || games[gameId].clients.length >= 2 ) {
+			return;
+		}
+		socket.join(gameId);
+		games[gameId].clients[games[gameId].clients.length] = socket;
+		let movingBat = "right-bat";
+		if ( socket.id === games[data.gameId].clients[0].id ) {
+			movingBat = "left-bat";
+		}
+		socket.emit('side', movingBat)
+		if(games[gameId].clients.length >= 2){
+			
+		socket.to(data.gameId).emit('full');  
+		socket.emit('full')  
+		}
+	});
+	socket.on('move', (data) => {
+		socket.to(data.gameId).emit('move', {"movingBat": data.movingBat, "position": data.position});
+	});
+  socket.on('disconnect', function () {
+    //console.log('client disconnected');
+  });
+});
+
+function S4() {
+  return (((1+Math.random())*0x10000)|0).toString(16).substring(1); 
+}
+
+// then to call it, plus stitch in '4' in the third group
+const guid = () => (S4() + S4() + "-" + S4() + "-4" + S4().substr(0,3) + "-" + S4() + "-" + S4() + S4() + S4()).toLowerCase();

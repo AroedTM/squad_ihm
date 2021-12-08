@@ -7,7 +7,7 @@
    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
+    <script src="https://cdn.socket.io/4.4.0/socket.io.min.js" integrity="sha384-1fOn6VtTq3PWwfsOrk45LnYcGosJwzMHv+Xh/Jx5303FVOXzEnw0EpLv30mtjmlj" crossorigin="anonymous"></script>
 </head>
 <body style="background-color:#121212;color:white;">
     <div class="container">
@@ -45,11 +45,9 @@
                         <button type="button" class="btn btn-info btn-lg" id="create">Creer une partie</button>
                     </div>
                     <div>
-                        <form id="myForm" style="transform: translateX(10%);">
-                            <label for="token">Rejoindre une partie</label>
-                            <input type="text" id="token" placeholder="code de la room a rejoindre" style="width:80%;"><br>
-                            <input type="submit" value="envoyer" id="submitBtn">
-                        </form>
+                        <label for="token">Rejoindre une partie</label>
+                        <input type="text" id="token" placeholder="code de la room a rejoindre" style="width:80%;"><br>
+                        <input type="submit" value="envoyer" id="submitBtn">
                         <br>
                         <div>
                             <button type="button" class="btn btn-info btn-lg" id="join">Rejoindre une partie aleatoire</button>
@@ -59,6 +57,7 @@
             </div>
         </div>
     </div>
+</body>
     <script>
         $(document).ready(function () {
             $("#Button2j").click(function () {
@@ -66,5 +65,6 @@
             });
         });
     </script>
+    <script src="js/acceuil.js"></script>
 </body>
 </html>
