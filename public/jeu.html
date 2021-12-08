@@ -124,20 +124,20 @@
 							palet_right.position.y -= vitesse;
 						}
 					}
-					else if (keyPressed[38] && palet_right.position.y < 0.6){ //up && (this.posy + 2) < limit_up)
+					else if (keyPressed[38] && palet_right.position.y < 0.6 && mySide === "right-bat"){ //up && (this.posy + 2) < limit_up)
 					
-					palet_right.position.y += vitesse;
+						palet_right.position.y += vitesse;
 					
 					}
-					else if (keyPressed[40] && palet_right.position.y > -0.6){ //down && (this.posy - 2) < limit_down
+					else if (keyPressed[40] && palet_right.position.y > -0.6 && mySide === "right-bat"){ //down && (this.posy - 2) < limit_down
 						palet_right.position.y -= vitesse;
 					}
-					else if (keyPressed[90] && palet_left.position.y < 0.6){ //up && (this.posy + 2) < limit_up)
+					else if (keyPressed[90] && palet_left.position.y < 0.6 && mySide === "left-bat"){ //up && (this.posy + 2) < limit_up)
 					
 					palet_left.position.y += vitesse;
 					
 					}
-					else if (keyPressed[83] && palet_left.position.y > -0.6){ //down && (this.posy - 2) < limit_down
+					else if (keyPressed[83] && palet_left.position.y > -0.6 && mySide === "left-bat"){ //down && (this.posy - 2) < limit_down
 						palet_left.position.y -= vitesse;
 					}
 					renderer.render( scene, camera );
@@ -147,27 +147,30 @@
 			bod.addEventListener('keyup', (event) => {
 				keyPressed[event.keyCode] = false;
 			});
-
+			
 			//ball movement
 			const animate = function () {
 				requestAnimationFrame( animate );
-
+				
 				var init_speed = ball.GetSpeed();
 				
 				//vertical limit
 				if (circle.position.y > 0.6 || circle.position.y < -0.6) {
 					ball.SetSpeedy(init_speed[1] * -1);
 				}
-
+				
 				//horizontal limit
 				if (circle.position.x > 1.6 || circle.position.x < -1.6) {
 					ball.SetSpeedx(init_speed[0] * -1);
 				}
-
+				
 				var update_speed = ball.GetSpeed();
 				circle.position.x += update_speed[0];
 				circle.position.y += update_speed[1];
-			
+				
+				if (mySide === "left-bat") {
+					socket.emit('ball', {"gameId":gameId, "x": circle.position.x, "y": circle.position.y, "speedx": ball.GetSpeed()[0], "speedy": ball.GetSpeed()[1]});
+				}
 				renderer.render( scene, camera );
 			};
 
@@ -202,18 +205,18 @@
 			}
 
 			socket.on('ball', (data) => {
-				ball.posx = data.posx
-				ball.posy = data.posy
-				ball.speedx = data.speedx
-				ball.speedy = data.speedy
+				console.log(data);
+				circle.position.x = parseFloat(data.x);
+				circle.position.y = parseFloat(data.y);
+				ball.SetSpeedx(data.speedx);
+				ball.SetSpeedy(data.speedy);
 			});
-
+/*
 			if (mySide === "left-bat") {
 				setInterval( () => {
-					socket.emit('ball', {"gameId":gameId, "x": ball.posx, "y": ball.posy, "speedx": ball.speedx, "speedy": ball.speedy});
 				},100);
 			}
-
+*/
 		</script>
 	</body>
 </html>
