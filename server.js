@@ -93,7 +93,7 @@ io.on('connection', (socket) => {
 		socket.to(data.gameId).emit('move', {"movingBat": data.movingBat, "position": data.position});
 	});
 	socket.on('ball', (data) => {
-		socket.to(data.gameId).emit('ball', {"posx": data.posx, "posy": data.posy, "speedx": data.speedx, "speedy": data.speedy, });
+		socket.to(data.gameId).emit('ball', {"x": data.x, "y": data.y, "speedx": data.speedx, "speedy": data.speedy, });
 	});
   socket.on('disconnect', function () {
     //console.log('client disconnected');
