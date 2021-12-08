@@ -83,7 +83,25 @@
 			const material_border = new THREE.LineBasicMaterial();
 			const border = new THREE.Line(geometry_border, material_border);
 
-			scene.add(border);			
+			//dashed line
+			const dashed_points = [];
+			dashed_points.push(new THREE.Vector3(0, 0.7, 0));
+			dashed_points.push(new THREE.Vector3(0, -0.7, 0));
+
+			const geometry_dashed = new THREE.BufferGeometry().setFromPoints(dashed_points);
+			const material_dashed = new THREE.LineDashedMaterial( {
+				color: 0xffffff,
+				linewidth: 2,
+				scale: 20,
+				dashSize: 0.5,
+			} );
+			
+			const dashed_line = new THREE.Line(geometry_dashed, material_dashed);
+			dashed_line.computeLineDistances();
+
+			//add scence
+			scene.add(border);
+			scene.add(dashed_line);			
 			scene.add(circle);
 			scene.add(palet_left);
 			scene.add(palet_right);
