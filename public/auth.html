@@ -14,9 +14,11 @@
             <div id="sign-in-tab-container" class="focused-tab-container">
                 <input id="sign-in-pseudo" type="text" placeholder="Pseudo" required>
                 <input id="sign-in-password" type="password" placeholder="Mot de passe" required>
-                <a href="">Mot de passe oublié</a>
+                <p onclick="authSignIn.showForgotForm()" style="color: #551A8B; cursor: pointer">Mot de passe oublié</p>
                 <button onclick="authSignIn.checkCredential()">Connexion</button>
                 <p id="sign-in-msg"></p>
+                <input id="forgot-email" style="display: none;" placeholder="Email" required>
+                <button id="forgot-button" onclick="authSignIn.pushForgotEmail()" style="display: none;">Envoyer</button>
             </div>
             <div id="sign-up-tab-container">
                 <input id="sign-up-email" type="email" placeholder="Email" required>
@@ -29,8 +31,9 @@
         <!-- TODO: adapt url for auth.js -->
         <script src="./js/auth.js"></script>
         <script>
-            var authSignIn = new SignIn();
-            var authSignUp = new SignUp();
+            var url = "<%= url %>";
+            var authSignIn = new SignIn(url);
+            var authSignUp = new SignUp(url);
         </script>
     </body>
 </html>
