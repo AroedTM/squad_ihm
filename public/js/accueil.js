@@ -1,6 +1,6 @@
 class Accueil {
     static logout() {
-        window.localStorage.removeItem("token");
+        window.localStorage.removeItem("auth_token");
         window.location.href = "/auth";
     }
 }
