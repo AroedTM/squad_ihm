@@ -233,6 +233,8 @@
 						ball.SetSpeedx(ball_speed, ball_speed);
 					else //left
 						ball.SetSpeedx(-ball_speed, ball_speed);
+					
+					socket.emit('ball', {"gameId":gameId, "x": circle.position.x, "y": circle.position.y, "speedx": ball.GetSpeed()[0], "speedy": ball.GetSpeed()[1]});
 				}
 
 				else if (circle.position.x-ball.radius < -1.55) {
@@ -252,6 +254,8 @@
 						ball.SetSpeedx(ball_speed, ball_speed);
 					else //left
 						ball.SetSpeedx(-ball_speed, ball_speed);
+					
+					socket.emit('ball', {"gameId":gameId, "x": circle.position.x, "y": circle.position.y, "speedx": ball.GetSpeed()[0], "speedy": ball.GetSpeed()[1]});
 				}
 				if (circle.position.x-ball.radius < palet_left.position.x + (left_raq.width/2) && circle.position.x-ball.radius > palet_left.position.x - (left_raq.width/2)){
 
@@ -363,7 +367,6 @@
 			}
 
 			socket.on('ball', (data) => {
-				console.log(data);
 				circle.position.x = parseFloat(data.x);
 				circle.position.y = parseFloat(data.y);
 				ball.SetSpeedx(data.speedx);
