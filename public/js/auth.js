@@ -30,7 +30,7 @@ class SignIn extends Auth {
         })
 
         /*########## TODO: add the right endpoint ##########*/
-        const response = await fetch('https://61af166c3e2aba0017c48fe5.mockapi.io/auth/test', {
+        const response = await fetch('https://61af166c3e2aba0017c48fe5.mockapi.io/auth/login', {
             method: 'POST',
             mode: 'cors',
             body: JSON.stringify({
@@ -41,15 +41,31 @@ class SignIn extends Auth {
         });
 
         // retrieve token
-        response.json().then( data => {
-            console.log(data);
-            if (data != null && data.token != "") {
-                window.localStorage.setItem('token', data.token);
-                console.log(window.localStorage.getItem('token'));
-            } else {
-                messageError();
-            }
-        })
+        if (response.ok) {
+            response.json().then( body => {
+                if (body.status == "ok") {
+                    this.statusMessage('Authentification réussie', 'INFO');
+                    window.localStorage.setItem('token', body.data.token);
+                    /*########### TODO: redirection to home page ###########*/
+                    window.location.href = 'Accueil.html';
+                } else if (body.status == 'ko') {
+                    this.statusMessage(body.data.message, 'WARN');
+                }
+            })
+        } else {
+            this.statusMessage('Erreur réseau', 'WARN');
+        }
+    }
+
+    statusMessage (msg, level) {
+        var signInMsg = document.getElementById('sign-in-msg');
+        if (level == 'WARN') {
+            signInMsg.style.color = 'red';
+        }
+        else if (level == 'INFO') {
+            signInMsg.style.color = 'green';
+        }
+        signInMsg.innerHTML = msg;
     }
 }
 
@@ -65,7 +81,7 @@ class SignUp extends Auth {
         })
 
         /*########## TODO: add the right endpoint ##########*/
-        const response = await fetch('https://61af166c3e2aba0017c48fe5.mockapi.io/auth/test', {
+        const response = await fetch('https://61af166c3e2aba0017c48fe5.mockapi.io/auth/register', {
             method: 'POST',
             mode: 'cors',
             body: JSON.stringify({
@@ -76,19 +92,31 @@ class SignUp extends Auth {
             headers
         });
 
-        // retrieve token
-        response.json().then( data => {
-            console.log(data);
-            if (data != null && data.token != "") {
-                window.localStorage.setItem('token', data.token);
-                console.log(window.localStorage.getItem('token'));
-            } else {
-                messageError();
-            }
-        })
+        // register new user
+        if (response.ok) {
+            response.json().then( body => {
+                if (body.status == "ok") {
+                    this.statusMessage(body.data.message, 'INFO');
+                    setTimeout(() => {
+                        Auth.switchTab('sign-in-tab');
+                    }, 1000);
+                } else if (body.status == 'ko') {
+                    this.statusMessage(body.data.message, 'WARN');
+                }
+            })
+        } else {
+            this.statusMessage('Erreur réseau', 'WARN');
+        }
     }
-}
 
-function messageError () {
-    document.getElementById('msg-error').innerHTML = 'Login ou mot de passe incorrect';
+    statusMessage (msg, level) {
+        var signUpMsg = document.getElementById('sign-up-msg');
+        if (level == 'WARN') {
+            signUpMsg.style.color = 'red';
+        }
+        else if (level == 'INFO') {
+            signUpMsg.style.color = 'green';
+        }
+        signUpMsg.innerHTML = msg;
+    }
 }

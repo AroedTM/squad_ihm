@@ -10,31 +10,35 @@
     <style>
         *{font-family: Retron2000; padding: 0; margin: 0;}
         .v-progress-circular__underlay{stroke: red;}
+        .anim{
+            transition: 1s;
+        }
+        .anim:hover{
+            transform: translateY(-10px);
+            transition: 1s;
+            transform: scale(1.05);
+        }
     </style>
 </head>
 <body>
     <div id="app" >
         <v-app style="background: #121212;"class="ma-0 pa-0" >
-
+            <v-progress-linear color="white" indeterminate reverse></v-progress-linear>
             <div style="color: white; position: absolute; right: 10em; z-index: 999; margin-top: 2em;">
-                <v-btn href="./Accueil.html" class="white--text" x-large depressed elevation="2" outlined>Retour</v-btn>
+            <div class="anim"><v-btn href="./Accueil.html" class="white--text" x-large depressed elevation="2" outlined style="border: 3px solid white;">Retour</v-btn></div>
             </div>
 
             <div style="color: white; position: absolute; left: 10em; z-index: 999; margin-top: 2em;">
                 <center>
-                    <h2>Ratio<h2>
-                    <p v-if="ratio > 1"style="margin: auto auto; font-size: 1em;" class="Victoire--text">{{ ratio }}</p>
-                    <p v-if="ratio == 1"style="margin: auto auto; font-size: 1em;" class="white--text">{{ ratio }}</p>
-                    <p v-if="ratio < 1"style="margin: auto auto; font-size: 1em;" class="Defaite--text">{{ ratio }}</p>
+                    <h2 style="font-size: 3em;">Ratio<h2>
+                    <p style="font-size: 2em;" v-if="ratio > 1"style="margin: auto auto; font-size: 1em;" class="Victoire--text" >{{ ratio }}</p>
+                    <p style="font-size: 2em;" v-if="ratio == 1"style="margin: auto auto; font-size: 1em;" class="white--text" >{{ ratio }}</p>
+                    <p style="font-size: 2em;" v-if="ratio < 1"style="margin: auto auto; font-size: 1em;" class="Defaite--text" >{{ ratio }}</p>
                     
-                    <h2 style="margin-top: 1em;">Parties<h2>
-                    <div style="display: flex;">
-                        <p style="margin: auto auto;">{{ parties.length }} </p>
-                        <v-progress-circular style="margin: auto auto; stroke: red;" :size="20"
+                    <h2 style="margin-top: 2em; font-size: 3em;">Parties<h2>
+                    <p style="margin: 0.8em auto; font-size: 2em;">{{ parties.length }} </p>
+                    <v-progress-circular style="margin: auto auto; stroke: red;" :width="15" :size="150"
                         :value="(victoires/parties.length)*100" color="Victoire"></v-progress-circular>
-                    </div>
-                        
-                    
                 </center>
             </div>
             <h1 style="color: white; margin: 0 auto; font-size: 3rem; top: 0;">SCOREBOARD</h1>
@@ -43,12 +47,12 @@
                 <v-container class="justify-center d-flex elevation-0">
                     <v-expansion-panels class="rounded-xl col-6 d-flex justify-center elevation-0">
                         <v-expansion-panel class="mb-5 rounded-xl" v-for="(partie,index) in parties" v-bind:key="partie.id">
-                            <v-expansion-panel-header outlined style="border: 4px solid white; background: #121212;" class="rounded-xl">
+                            <div class="anim"><v-expansion-panel-header outlined style="border: 4px solid white; background: #121212;" class="rounded-xl">
                                     <v-card-title>
                                         <v-chip class="col-0 ml-5 white black--text">{{index+1}}</v-chip>
                                         <v-container class="col-10 ma-0" :class="(partie.result)+'--text'">{{ partie.result }}</v-container>
                                     </v-card-title>
-                                </v-expansion-panel-header >
+                                </v-expansion-panel-header ></div>
                                 <v-expansion-panel-content class="rounded-xl" >
                                         <v-simple-table class="rounded-xl">
                                             <template v-slot:default >
@@ -111,7 +115,7 @@
                     if(self.parties.defaites == 0)
                         self.ratio = self.victoires;
                     else
-                        self.ratio = self.victoires/self.defaites;
+                        self.ratio = (self.victoires/self.defaites).toFixed(2);
 
                     self.ratioEvolution = reponse.data.ratioEvolution;
 
