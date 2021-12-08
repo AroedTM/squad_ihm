@@ -141,7 +141,7 @@
                     else
                         self.ratio = (self.victoires/self.defaites).toFixed(2);
 
-                    self.ratioEvolution = reponse.data.ratioEvolution;
+                    self.ratioEvolution = reponse.data.ratioEvolution.reverse();
 
                 })
             },
